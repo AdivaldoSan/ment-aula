@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Painel ao vivo</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="firebase.js"></script>
+
+<style>
+body{
+  font-family:Arial;
+  background:#111;
+  color:white;
+  text-align:center;
+  margin:0;
+}
+
+#conteudo{
+  margin-top:30px;
+}
+
+.card{
+  border:1px solid #444;
+  margin:10px;
+  padding:10px;
+  border-radius:8px;
+}
+
+button{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:20px;
+  font-size:20px;
+  background:#00c853;
+  border:none;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="titulo">Respostas em tempo real</h1>
+
+<div id="conteudo"></div>
+
+<button onclick="proximo()">AVANÇAR</button>
+
+<script>
+
+// ===================== TEMPO REAL =====================
+db.ref("respostas").on("child_added", snap => {
+
+  const d = snap.val();
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <b>${d.p1}</b><br>
+    ${d.p2}<br>
+    ${d.p3}
+  `;
+
+  conteudo.prepend(card);
+});
+
+// ===================== SLIDES =====================
+let slide = 0;
+
+const slides = [
+
+  () => {
+    titulo.innerText = "Mapa Geral";
+    conteudo.innerHTML = `
+      <h2>PRINCÍPIOS → FINALIDADES → AVALIAÇÃO</h2>
+    `;
+  },
+
+  () => {
+    titulo.innerText = "Princípios";
+    conteudo.innerHTML = `
+      CF art. 206 + LDB art. 3º<br>
+      Igualdade, qualidade, gestão democrática
+    `;
+  },
+
+  () => {
+    titulo.innerText = "Finalidades";
+    conteudo.innerHTML = `
+      LDB art. 2º<br>
+      Formação integral, cidadania, trabalho
+    `;
+  },
+
+  () => {
+    titulo.innerText = "Problema";
+    conteudo.innerHTML = `
+      Distância entre teoria e prática
+    `;
+  },
+
+  () => {
+    titulo.innerText = "Avaliação";
+    conteudo.innerHTML = `
+      Diagnosticar → acompanhar → intervir
+    `;
+  },
+
+  () => {
+    titulo.innerText = "Conclusão";
+    conteudo.innerHTML = `
+      Sem avaliação, os princípios ficam só no papel
+    `;
+  }
+
+];
+
+function proximo(){
+  if(slide < slides.length){
+    slides[slide++]();
+  }
+}
+
+</script>
+
+</body>
+</html>
