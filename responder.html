@@ -1,1 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Responder</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="firebase.js"></script>
+
+<style>
+body{
+  font-family:Arial;
+  text-align:center;
+  background:#f5f5f5;
+}
+
+.container{
+  margin-top:40px;
+}
+
+input, select{
+  width:85%;
+  padding:12px;
+  margin:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+button{
+  padding:15px 25px;
+  font-size:18px;
+  background:#2196f3;
+  color:white;
+  border:none;
+  border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Responda rapidamente</h2>
+
+<input id="p1" placeholder="Qual o principal objetivo da educação?">
+
+<select id="p2">
+<option value="">A escola garante qualidade?</option>
+<option>Sim</option>
+<option>Parcialmente</option>
+<option>Não</option>
+</select>
+
+<input id="p3" placeholder="Como saber se a educação funciona?">
+
+<br>
+<button onclick="enviar()">ENVIAR</button>
+
+</div>
+
+<script>
+function enviar(){
+
+  const p1 = document.getElementById("p1").value;
+  const p2 = document.getElementById("p2").value;
+  const p3 = document.getElementById("p3").value;
+
+  if(!p1 || !p2 || !p3){
+    alert("Preencha tudo");
+    return;
+  }
+
+  db.ref("respostas").push({
+    p1,
+    p2,
+    p3,
+    time: Date.now()
+  });
+
+  document.body.innerHTML = "<h2>Resposta enviada ✅</h2>";
+}
+</script>
+
+</body>
+</html>
