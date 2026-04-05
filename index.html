@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script src="firebase.js"></script>
@@ -40,13 +41,24 @@ button{
   background:#00c853;
   border:none;
   border-radius:10px;
+  color:white;
+}
+
+img{
+  margin:20px auto;
+  display:block;
+}
+
+.link{
+  margin-top:10px;
+  font-size:18px;
 }
 </style>
 </head>
 
 <body>
 
-<h1 id="titulo">Respostas em tempo real</h1>
+<h1 id="titulo">Bem-vindo</h1>
 
 <div id="conteudo"></div>
 
@@ -55,78 +67,122 @@ button{
 <script>
 
 // ===================== TEMPO REAL =====================
-db.ref("respostas").on("child_added", snap => {
+function iniciarRealtime(){
 
-  const d = snap.val();
+  conteudo.innerHTML = "";
 
-  const card = document.createElement("div");
-  card.className = "card";
+  db.ref("respostas").on("child_added", snap => {
 
-  card.innerHTML = `
-    <b>${d.p1}</b><br>
-    ${d.p2}<br>
-    ${d.p3}
-  `;
+    const d = snap.val();
 
-  conteudo.prepend(card);
-});
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <b>${d.p1}</b><br>
+      ${d.p2}<br>
+      ${d.p3}
+    `;
+
+    conteudo.prepend(card);
+  });
+}
 
 // ===================== SLIDES =====================
 let slide = 0;
 
 const slides = [
 
+  // SLIDE 0 → QR CODE
   () => {
-    titulo.innerText = "Mapa Geral";
+    titulo.innerText = "Participe";
+
+    conteudo.innerHTML = `
+      <h2>Escaneie o QR Code</h2>
+
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://adivaldosan.github.io/ment-aula/responder.html">
+
+      <p class="link">Ou acesse:</p>
+      <p class="link"><b>adivaldosan.github.io/ment-aula/responder.html</b></p>
+    `;
+  },
+
+  // SLIDE 1 → RESPOSTAS AO VIVO
+  () => {
+    titulo.innerText = "Respostas em tempo real";
+    iniciarRealtime();
+  },
+
+  // SLIDE 2 → MAPA GERAL
+  () => {
+    titulo.innerText = "Mapa Conceitual";
     conteudo.innerHTML = `
       <h2>PRINCÍPIOS → FINALIDADES → AVALIAÇÃO</h2>
     `;
   },
 
+  // SLIDE 3 → PRINCÍPIOS
   () => {
     titulo.innerText = "Princípios";
     conteudo.innerHTML = `
-      CF art. 206 + LDB art. 3º<br>
-      Igualdade, qualidade, gestão democrática
+      CF art. 206 + LDB art. 3º<br><br>
+      ✔ Igualdade de acesso<br>
+      ✔ Qualidade<br>
+      ✔ Gestão democrática
     `;
   },
 
+  // SLIDE 4 → FINALIDADES
   () => {
     titulo.innerText = "Finalidades";
     conteudo.innerHTML = `
-      LDB art. 2º<br>
-      Formação integral, cidadania, trabalho
+      LDB art. 2º<br><br>
+      ✔ Formação integral<br>
+      ✔ Cidadania<br>
+      ✔ Trabalho
     `;
   },
 
+  // SLIDE 5 → PROBLEMA
   () => {
     titulo.innerText = "Problema";
     conteudo.innerHTML = `
-      Distância entre teoria e prática
+      Distância entre teoria e prática<br><br>
+      Baixo desempenho<br>
+      Desigualdade<br>
+      Ensino focado em nota
     `;
   },
 
+  // SLIDE 6 → AVALIAÇÃO
   () => {
     titulo.innerText = "Avaliação";
     conteudo.innerHTML = `
-      Diagnosticar → acompanhar → intervir
+      Diagnosticar → acompanhar → intervir<br><br>
+      Base para decisões pedagógicas
     `;
   },
 
+  // SLIDE 7 → CONCLUSÃO
   () => {
     titulo.innerText = "Conclusão";
     conteudo.innerHTML = `
-      Sem avaliação, os princípios ficam só no papel
+      Sem avaliação,<br>
+      os princípios ficam apenas no papel.
     `;
   }
 
 ];
 
+// ===================== CONTROLE =====================
 function proximo(){
   if(slide < slides.length){
     slides[slide++]();
   }
 }
+
+// iniciar no slide 0 automaticamente
+slides[0]();
 
 </script>
 
