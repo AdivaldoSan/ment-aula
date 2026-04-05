@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Painel ao vivo</title>
+<title>Painel Interativo</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,176 +13,196 @@
 
 <style>
 body{
+  margin:0;
   font-family:Arial;
   background:#111;
   color:white;
-  text-align:center;
-  margin:0;
+  display:flex;
+  height:100vh;
 }
 
-#conteudo{
-  margin-top:30px;
-}
-
-.card{
-  border:1px solid #444;
-  margin:10px;
-  padding:10px;
-  border-radius:8px;
-}
-
-button{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
+/* LADO ESQUERDO */
+#left{
+  width:30%;
+  background:#1e1e1e;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   padding:20px;
-  font-size:20px;
-  background:#00c853;
-  border:none;
-  border-radius:10px;
-  color:white;
 }
 
-img{
-  margin:20px auto;
-  display:block;
+#left img{
+  width:160px;
 }
 
-.link{
+#left p{
   margin-top:10px;
-  font-size:18px;
+  text-align:center;
+}
+
+/* LADO DIREITO */
+#right{
+  width:70%;
+  display:flex;
+  flex-direction:column;
+  padding:10px;
+}
+
+.box{
+  flex:1;
+  border:1px solid #333;
+  margin:8px;
+  border-radius:10px;
+  padding:10px;
+  overflow:auto;
+}
+
+h3{
+  margin-top:0;
+}
+
+/* NUVEM */
+.word{
+  display:inline-block;
+  margin:5px;
+  transition:0.3s;
+}
+
+/* BARRAS */
+.bar{
+  background:#444;
+  margin:5px 0;
+  border-radius:6px;
+  overflow:hidden;
+}
+
+.bar-inner{
+  background:#00c853;
+  padding:5px;
+  text-align:left;
 }
 </style>
 </head>
 
 <body>
 
-<h1 id="titulo">Bem-vindo</h1>
+<!-- ESQUERDA -->
+<div id="left">
+  <h2>Participe</h2>
 
-<div id="conteudo"></div>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://adivaldosan.github.io/ment-aula/responder.html">
 
-<button onclick="proximo()">AVANÇAR</button>
+  <p>Escaneie o QR Code</p>
+  <p><b>ou acesse:</b><br>adivaldosan.github.io/ment-aula/responder.html</p>
+</div>
+
+<!-- DIREITA -->
+<div id="right">
+
+  <div class="box">
+    <h3>P1 - Objetivo da educação</h3>
+    <div id="p1"></div>
+  </div>
+
+  <div class="box">
+    <h3>P2 - Qualidade</h3>
+    <div id="p2"></div>
+  </div>
+
+  <div class="box">
+    <h3>P3 - Como saber se funciona</h3>
+    <div id="p3"></div>
+  </div>
+
+</div>
 
 <script>
 
-// ===================== TEMPO REAL =====================
-function iniciarRealtime(){
+// =================== ARMAZENAMENTO ===================
+let palavras1 = {};
+let palavras3 = {};
+let respostas2 = {
+  "Sim":0,
+  "Parcialmente":0,
+  "Não":0
+};
 
-  conteudo.innerHTML = "";
-
-  db.ref("respostas").on("child_added", snap => {
-
-    const d = snap.val();
-
-    const card = document.createElement("div");
-    card.className = "card";
-
-    card.innerHTML = `
-      <b>${d.p1}</b><br>
-      ${d.p2}<br>
-      ${d.p3}
-    `;
-
-    conteudo.prepend(card);
-  });
+// =================== NORMALIZAR ===================
+function normalizar(txt){
+  return txt
+    .toLowerCase()
+    .trim()
+    .split(" ")[0]; // pega só 1 palavra
 }
 
-// ===================== SLIDES =====================
-let slide = 0;
+// =================== NUVEM ===================
+function renderNuvem(container, dados){
+  container.innerHTML = "";
 
-const slides = [
+  for(let palavra in dados){
+    const span = document.createElement("span");
+    span.className = "word";
 
-  // SLIDE 0 → QR CODE
-  () => {
-    titulo.innerText = "Participe";
+    const tamanho = 12 + dados[palavra]*5;
 
-    conteudo.innerHTML = `
-      <h2>Escaneie o QR Code</h2>
+    span.style.fontSize = tamanho + "px";
+    span.innerText = palavra;
 
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https://adivaldosan.github.io/ment-aula/responder.html">
-
-      <p class="link">Ou acesse:</p>
-      <p class="link"><b>adivaldosan.github.io/ment-aula/responder.html</b></p>
-    `;
-  },
-
-  // SLIDE 1 → RESPOSTAS AO VIVO
-  () => {
-    titulo.innerText = "Respostas em tempo real";
-    iniciarRealtime();
-  },
-
-  // SLIDE 2 → MAPA GERAL
-  () => {
-    titulo.innerText = "Mapa Conceitual";
-    conteudo.innerHTML = `
-      <h2>PRINCÍPIOS → FINALIDADES → AVALIAÇÃO</h2>
-    `;
-  },
-
-  // SLIDE 3 → PRINCÍPIOS
-  () => {
-    titulo.innerText = "Princípios";
-    conteudo.innerHTML = `
-      CF art. 206 + LDB art. 3º<br><br>
-      ✔ Igualdade de acesso<br>
-      ✔ Qualidade<br>
-      ✔ Gestão democrática
-    `;
-  },
-
-  // SLIDE 4 → FINALIDADES
-  () => {
-    titulo.innerText = "Finalidades";
-    conteudo.innerHTML = `
-      LDB art. 2º<br><br>
-      ✔ Formação integral<br>
-      ✔ Cidadania<br>
-      ✔ Trabalho
-    `;
-  },
-
-  // SLIDE 5 → PROBLEMA
-  () => {
-    titulo.innerText = "Problema";
-    conteudo.innerHTML = `
-      Distância entre teoria e prática<br><br>
-      Baixo desempenho<br>
-      Desigualdade<br>
-      Ensino focado em nota
-    `;
-  },
-
-  // SLIDE 6 → AVALIAÇÃO
-  () => {
-    titulo.innerText = "Avaliação";
-    conteudo.innerHTML = `
-      Diagnosticar → acompanhar → intervir<br><br>
-      Base para decisões pedagógicas
-    `;
-  },
-
-  // SLIDE 7 → CONCLUSÃO
-  () => {
-    titulo.innerText = "Conclusão";
-    conteudo.innerHTML = `
-      Sem avaliação,<br>
-      os princípios ficam apenas no papel.
-    `;
-  }
-
-];
-
-// ===================== CONTROLE =====================
-function proximo(){
-  if(slide < slides.length){
-    slides[slide++]();
+    container.appendChild(span);
   }
 }
 
-// iniciar no slide 0 automaticamente
-slides[0]();
+// =================== BARRAS ===================
+function renderBarras(){
+  const total = respostas2["Sim"] + respostas2["Parcialmente"] + respostas2["Não"];
+
+  p2.innerHTML = "";
+
+  for(let key in respostas2){
+
+    const valor = respostas2[key];
+    const porcento = total ? (valor/total)*100 : 0;
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+
+    bar.innerHTML = `
+      <div class="bar-inner" style="width:${porcento}%">
+        ${key} (${valor})
+      </div>
+    `;
+
+    p2.appendChild(bar);
+  }
+}
+
+// =================== FIREBASE ===================
+db.ref("respostas").on("child_added", snap => {
+
+  const d = snap.val();
+
+  // P1
+  let w1 = normalizar(d.p1);
+  if(w1){
+    palavras1[w1] = (palavras1[w1] || 0) + 1;
+    renderNuvem(p1, palavras1);
+  }
+
+  // P2
+  if(respostas2[d.p2] !== undefined){
+    respostas2[d.p2]++;
+    renderBarras();
+  }
+
+  // P3
+  let w3 = normalizar(d.p3);
+  if(w3){
+    palavras3[w3] = (palavras3[w3] || 0) + 1;
+    renderNuvem(p3, palavras3);
+  }
+
+});
 
 </script>
 
