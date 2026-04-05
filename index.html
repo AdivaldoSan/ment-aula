@@ -12,18 +12,30 @@
 <script src="firebase.js"></script>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   font-family:Arial;
   background:#111;
   color:white;
-  display:flex;
   height:100vh;
+  overflow:hidden;
+  display:flex;
 }
 
-/* LADO ESQUERDO */
+/* LAYOUT PRINCIPAL */
+#app{
+  display:grid;
+  grid-template-columns: 28% 72%;
+  width:100%;
+  height:100%;
+}
+
+/* ESQUERDA */
 #left{
-  width:30%;
   background:#1e1e1e;
   display:flex;
   flex-direction:column;
@@ -33,46 +45,46 @@ body{
 }
 
 #left img{
-  width:160px;
+  width:140px;
 }
 
 #left p{
-  margin-top:10px;
   text-align:center;
+  font-size:14px;
 }
 
-/* LADO DIREITO */
+/* DIREITA */
 #right{
-  width:70%;
-  display:flex;
-  flex-direction:column;
+  display:grid;
+  grid-template-rows: 1fr 1fr 1fr;
   padding:10px;
+  gap:10px;
+  height:100%;
 }
 
 .box{
-  flex:1;
   border:1px solid #333;
-  margin:8px;
   border-radius:10px;
   padding:10px;
   overflow:auto;
 }
 
 h3{
-  margin-top:0;
+  margin:0 0 5px 0;
+  font-size:16px;
 }
 
 /* NUVEM */
 .word{
   display:inline-block;
-  margin:5px;
-  transition:0.3s;
+  margin:4px;
+  transition:0.2s;
 }
 
 /* BARRAS */
 .bar{
-  background:#444;
-  margin:5px 0;
+  background:#333;
+  margin:6px 0;
   border-radius:6px;
   overflow:hidden;
 }
@@ -80,46 +92,86 @@ h3{
 .bar-inner{
   background:#00c853;
   padding:5px;
-  text-align:left;
+  font-size:14px;
+}
+
+/* BOTÃO */
+#btn{
+  position:fixed;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:14px 28px;
+  font-size:18px;
+  background:#00c853;
+  border:none;
+  border-radius:10px;
+  color:white;
+  z-index:999;
+}
+
+/* SLIDES */
+#slideBox{
+  position:absolute;
+  inset:0;
+  background:#111;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  font-size:32px;
+  padding:40px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ESQUERDA -->
-<div id="left">
-  <h2>Participe</h2>
+<div id="app">
 
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://adivaldosan.github.io/ment-aula/responder.html">
+  <!-- ESQUERDA -->
+  <div id="left">
+    <h2>Participe</h2>
 
-  <p>Escaneie o QR Code</p>
-  <p><b>ou acesse:</b><br>adivaldosan.github.io/ment-aula/responder.html</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://adivaldosan.github.io/ment-aula/responder.html">
+
+    <p>Escaneie o QR Code</p>
+    <p><b>ou acesse:</b><br>adivaldosan.github.io/ment-aula/responder.html</p>
+  </div>
+
+  <!-- DIREITA -->
+  <div id="right">
+
+    <div class="box">
+      <h3>P1 - Objetivo</h3>
+      <div id="p1"></div>
+    </div>
+
+    <div class="box">
+      <h3>P2 - Qualidade</h3>
+      <div id="p2"></div>
+    </div>
+
+    <div class="box">
+      <h3>P3 - Funcionamento</h3>
+      <div id="p3"></div>
+    </div>
+
+  </div>
+
 </div>
 
-<!-- DIREITA -->
-<div id="right">
+<!-- SLIDES -->
+<div id="slideBox"></div>
 
-  <div class="box">
-    <h3>P1 - Objetivo da educação</h3>
-    <div id="p1"></div>
-  </div>
-
-  <div class="box">
-    <h3>P2 - Qualidade</h3>
-    <div id="p2"></div>
-  </div>
-
-  <div class="box">
-    <h3>P3 - Como saber se funciona</h3>
-    <div id="p3"></div>
-  </div>
-
-</div>
+<button id="btn" onclick="proximo()">AVANÇAR</button>
 
 <script>
 
-// =================== ARMAZENAMENTO ===================
+// =================== ESTADO ===================
+let slide = 0;
+
+// =================== DADOS ===================
 let palavras1 = {};
 let palavras3 = {};
 let respostas2 = {
@@ -130,10 +182,7 @@ let respostas2 = {
 
 // =================== NORMALIZAR ===================
 function normalizar(txt){
-  return txt
-    .toLowerCase()
-    .trim()
-    .split(" ")[0]; // pega só 1 palavra
+  return txt.toLowerCase().trim().split(" ")[0];
 }
 
 // =================== NUVEM ===================
@@ -142,10 +191,10 @@ function renderNuvem(container, dados){
 
   for(let palavra in dados){
     const span = document.createElement("span");
+
+    const tamanho = 14 + dados[palavra]*4;
+
     span.className = "word";
-
-    const tamanho = 12 + dados[palavra]*5;
-
     span.style.fontSize = tamanho + "px";
     span.innerText = palavra;
 
@@ -156,20 +205,19 @@ function renderNuvem(container, dados){
 // =================== BARRAS ===================
 function renderBarras(){
   const total = respostas2["Sim"] + respostas2["Parcialmente"] + respostas2["Não"];
-
   p2.innerHTML = "";
 
   for(let key in respostas2){
 
-    const valor = respostas2[key];
-    const porcento = total ? (valor/total)*100 : 0;
+    const val = respostas2[key];
+    const perc = total ? (val/total)*100 : 0;
 
     const bar = document.createElement("div");
     bar.className = "bar";
 
     bar.innerHTML = `
-      <div class="bar-inner" style="width:${porcento}%">
-        ${key} (${valor})
+      <div class="bar-inner" style="width:${perc}%">
+        ${key} (${val})
       </div>
     `;
 
@@ -182,28 +230,55 @@ db.ref("respostas").on("child_added", snap => {
 
   const d = snap.val();
 
-  // P1
   let w1 = normalizar(d.p1);
   if(w1){
-    palavras1[w1] = (palavras1[w1] || 0) + 1;
+    palavras1[w1] = (palavras1[w1]||0)+1;
     renderNuvem(p1, palavras1);
   }
 
-  // P2
   if(respostas2[d.p2] !== undefined){
     respostas2[d.p2]++;
     renderBarras();
   }
 
-  // P3
   let w3 = normalizar(d.p3);
   if(w3){
-    palavras3[w3] = (palavras3[w3] || 0) + 1;
+    palavras3[w3] = (palavras3[w3]||0)+1;
     renderNuvem(p3, palavras3);
   }
 
 });
 
+// =================== SLIDES ===================
+const slides = [
+
+  "PRINCÍPIOS → FINALIDADES → AVALIAÇÃO",
+
+  "PRINCÍPIOS\n\nCF art.206 + LDB art.3º",
+
+  "FINALIDADES\n\nFormação, cidadania, trabalho",
+
+  "PROBLEMA\n\nDistância entre teoria e prática",
+
+  "AVALIAÇÃO\n\nDiagnosticar → acompanhar → intervir",
+
+  "CONCLUSÃO\n\nSem avaliação, tudo fica no papel"
+];
+
+function proximo(){
+
+  // primeira vez → abre modo slide
+  if(slide === 0){
+    slideBox.style.display = "flex";
+    app.style.display = "none";
+  }
+
+  if(slide < slides.length){
+    slideBox.innerText = slides[slide];
+    slide++;
+  }
+
+}
 </script>
 
 </body>
