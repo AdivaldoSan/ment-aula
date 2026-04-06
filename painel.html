@@ -643,6 +643,12 @@ function zoomBolha(index){
 
   // zoom inicial
   mapa.style.transform = `translate(${dx}px, ${dy}px) scale(2)`;
+  
+  bolhas.forEach((el, i)=>{
+  if(i !== index){
+    el.style.opacity = "0.1";
+  }
+});
 
   // 🔥 SEGUNDO ZOOM (efeito entrar)
   setTimeout(()=>{
