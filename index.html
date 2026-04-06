@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Apresentação</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial;
+  height:100vh;
+  overflow:hidden;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  color:white;
+
+  /* MESMO FUNDO */
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+/* FUNDO DECORATIVO */
+body::before,
+body::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:0.4;
+}
+
+body::before{
+  width:400px;
+  height:400px;
+  background:#00c853;
+  top:-100px;
+  left:-100px;
+}
+
+body::after{
+  width:400px;
+  height:400px;
+  background:#69f0ae;
+  bottom:-100px;
+  right:-100px;
+}
+
+/* CONTAINER */
+#box{
+  text-align:center;
+  z-index:2;
+}
+
+/* TÍTULO */
+h1{
+  font-size:42px;
+  margin-bottom:30px;
+}
+
+/* NOMES */
+.nome{
+  font-size:26px;
+  margin:8px 0;
+  opacity:0.9;
+}
+
+/* BOTÃO */
+button{
+  margin-top:40px;
+  padding:14px 30px;
+  font-size:18px;
+
+  background: linear-gradient(45deg, #00c853, #69f0ae);
+  border:none;
+  border-radius:30px;
+  color:#000;
+  font-weight:bold;
+
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(0,200,83,0.5);
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div id="box">
+
+  <h1>Princípios e Finalidades da Educação Nacional</h1>
+
+  <div class="nome">Adivaldo João da Silva Santos</div>
+  <div class="nome">Liliângela Barboza da Silva</div>
+  <div class="nome">Lucas da Silva Rafael</div>
+  <div class="nome">Thiara Mendes da Costa</div>
+
+  <button onclick="entrar()">Iniciar</button>
+
+</div>
+
+<script>
+function entrar(){
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
