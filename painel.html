@@ -286,6 +286,14 @@ h3{
   opacity:0;
   transition: opacity 0.4s ease;
 }  
+
+.inner{
+  opacity:0;
+  transform:scale(0.5);
+  transition:0.5s;
+  text-align:center;
+  font-size:18px;
+}
   
 </style>
 </head>
@@ -430,15 +438,50 @@ db.ref("respostas").on("child_added", snap => {
 const slides = [
 
   // 🔴 SLIDE 0 → MAPA (PREZI)
- () => {
+() => {
   slideBox.innerHTML = `
     <div id="viewport">
       <div id="mapa">
 
-       <div class="bolha b1">PRINCÍPIOS</div>
-        <div class="bolha b2">FINALIDADES</div>
-        <div class="bolha b3">PROBLEMA</div>
-        <div class="bolha b4">AVALIAÇÃO</div>
+        <div class="bolha b1">
+          <div class="inner">
+            <h2>Princípios</h2>
+            CF art. 206<br>
+            LDB art. 3º<br><br>
+            igualdade<br>
+            liberdade<br>
+            qualidade<br>
+            gestão democrática
+          </div>
+        </div>
+
+        <div class="bolha b2">
+          <div class="inner">
+            <h2>Finalidades</h2>
+            LDB art. 2º<br><br>
+            desenvolvimento<br>
+            cidadania<br>
+            trabalho
+          </div>
+        </div>
+
+        <div class="bolha b3">
+          <div class="inner">
+            <h2>Problema</h2><br>
+            desigualdade<br>
+            baixa aprendizagem<br>
+            distância teoria/prática
+          </div>
+        </div>
+
+        <div class="bolha b4">
+          <div class="inner">
+            <h2>Avaliação</h2><br>
+            diagnosticar<br>
+            acompanhar<br>
+            intervir
+          </div>
+        </div>
 
       </div>
     </div>
@@ -641,24 +684,37 @@ function zoomBolha(index){
   const dx = (window.innerWidth/2) - cx;
   const dy = (window.innerHeight/2) - cy;
 
-  // zoom inicial
-  mapa.style.transform = `translate(${dx}px, ${dy}px) scale(2)`;
-  
+  mapa.style.transform = `translate(${dx}px, ${dy}px) scale(3)`;
+
   bolhas.forEach((el, i)=>{
-  if(i !== index){
-    el.style.opacity = "0.1";
-  }
-});
+    if(i !== index){
+      el.style.opacity = "0.05";
+    }
+  });
 
-  // 🔥 SEGUNDO ZOOM (efeito entrar)
   setTimeout(()=>{
-    mapa.style.transform = `translate(${dx}px, ${dy}px) scale(4)`;
-  },400);
-
+    const inner = b.querySelector(".inner");
+    inner.style.opacity = "1";
+    inner.style.transform = "scale(1)";
+  },500);
 }
 //====================================
 function resetMapa(){
-  document.getElementById("mapa").style.transform = "scale(1)";
+
+  const mapa = document.getElementById("mapa");
+  const bolhas = document.querySelectorAll(".bolha");
+
+  mapa.style.transform = "scale(1)";
+
+  bolhas.forEach(b=>{
+    b.style.opacity = "1";
+
+    const inner = b.querySelector(".inner");
+    if(inner){
+      inner.style.opacity = "0";
+      inner.style.transform = "scale(0.5)";
+    }
+  });
 }
 //====================================
 function mostrarSlide(num){
