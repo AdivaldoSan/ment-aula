@@ -11,36 +11,91 @@
 <script src="firebase.js"></script>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
+  margin:0;
   font-family:Arial;
-  text-align:center;
-  background:#f5f5f5;
-}
-
-.container{
-  margin-top:40px;
-}
-
-input, select{
-  width:85%;
-  padding:12px;
-  margin:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
-}
-
-button{
-  padding:15px 25px;
-  font-size:18px;
-  background:#2196f3;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   color:white;
-  border:none;
+
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+/* TOPBAR */
+#topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:50px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+
+  font-weight:bold;
+  z-index:1000;
+}
+
+/* CONTAINER */
+.container{
+  width:90%;
+  max-width:400px;
+
+  margin-top:60px;
+  padding:20px;
+
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(10px);
+
+  border-radius:12px;
+  text-align:center;
+}
+
+/* INPUTS */
+input, select{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
   border-radius:8px;
+  border:none;
+  outline:none;
+  font-size:16px;
+}
+
+/* BOTÃO */
+button{
+  width:100%;
+  padding:14px;
+  font-size:18px;
+
+  background: linear-gradient(45deg, #00c853, #69f0ae);
+  color:#000;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+
+  cursor:pointer;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
+
+<div id="topbar">
+ Princípios e Finalidades da educação nacional
+</div>
 
 <div class="container">
 
@@ -57,32 +112,64 @@ button{
 
 <input id="p3" placeholder="Como saber se a educação funciona?">
 
-<br>
 <button onclick="enviar()">ENVIAR</button>
 
 </div>
 
 <script>
+
+// 🔒 força apenas UMA palavra
+function umaPalavra(valor){
+  return valor
+    .trim()
+    .toLowerCase()
+    .split(" ")[0];
+}
+
+// aplica em tempo real (UX melhor)
+p1.addEventListener("input", () => {
+  p1.value = umaPalavra(p1.value);
+});
+
+p3.addEventListener("input", () => {
+  p3.value = umaPalavra(p3.value);
+});
+
 function enviar(){
 
-  const p1 = document.getElementById("p1").value;
-  const p2 = document.getElementById("p2").value;
-  const p3 = document.getElementById("p3").value;
+  const v1 = umaPalavra(p1.value);
+  const v2 = p2.value;
+  const v3 = umaPalavra(p3.value);
 
-  if(!p1 || !p2 || !p3){
-    alert("Preencha tudo");
+  if(!v1 || !v2 || !v3){
+    alert("Preencha tudo corretamente");
     return;
   }
 
   db.ref("respostas").push({
-    p1,
-    p2,
-    p3,
+    p1: v1,
+    p2: v2,
+    p3: v3,
     time: Date.now()
   });
 
-  document.body.innerHTML = "<h2>Resposta enviada ✅</h2>";
+  // feedback visual melhor
+  document.body.innerHTML = `
+    <div style="
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color:white;
+      font-size:24px;
+      text-align:center;
+    ">
+      ✅ Resposta enviada!
+    </div>
+  `;
 }
+
 </script>
 
 </body>
