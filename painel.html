@@ -222,6 +222,47 @@ h3{
   backdrop-filter: blur(6px);
   cursor:pointer;
 }
+.slide{
+  width:90%;
+  max-width:1000px;
+}
+
+/* duas colunas */
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+}
+
+/* cards */
+.card{
+  background: rgba(0,0,0,0.35);
+  padding:20px;
+  border-radius:12px;
+  backdrop-filter: blur(10px);
+}
+
+/* título grande */
+.titulo-slide{
+  font-size:32px;
+  margin-bottom:20px;
+}
+
+/* destaque */
+.highlight{
+  font-size:26px;
+  font-weight:bold;
+  text-align:center;
+}
+
+/* seta fluxo */
+.fluxo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  font-size:20px;
+}
   
 </style>
 </head>
@@ -363,25 +404,95 @@ db.ref("respostas").on("child_added", snap => {
 // =================== SLIDES ===================
 const slides = [
 
-  "PRINCÍPIOS → FINALIDADES → PROBLEMA → AVALIAÇÃO",
+  // 🔴 VISÃO GERAL
+  () => `
+    <div class="slide">
+      <div class="titulo-slide">Estrutura da Educação</div>
 
-  "PRINCÍPIOS\n\nCF art.206 + LDB art.3º",
+      <div class="grid2">
+        <div class="card">PRINCÍPIOS<br><small>como deve acontecer</small></div>
+        <div class="card">FINALIDADES<br><small>para que educar</small></div>
+        <div class="card">PROBLEMA<br><small>o que falha</small></div>
+        <div class="card">AVALIAÇÃO<br><small>como corrigir</small></div>
+      </div>
+    </div>
+  `,
 
-  "FINALIDADES\n\nFormação, cidadania, trabalho",
+  // 🔵 PRINCÍPIOS (DUAS COLUNAS)
+  () => `
+    <div class="slide grid2">
+      <div class="card">
+        <h2>Princípios</h2>
+        CF art.206<br>
+        LDB art.3º
+      </div>
 
-  "PROBLEMA\n\nDistância entre teoria e prática",
+      <div class="card">
+        igualdade de acesso<br>
+        liberdade de aprender<br>
+        pluralismo de ideias<br>
+        gestão democrática<br>
+        padrão de qualidade
+      </div>
+    </div>
+  `,
 
-  "AVALIAÇÃO\n\nDiagnosticar → acompanhar → intervir",
+  // 🔵 FINALIDADES (CARD CENTRAL)
+  () => `
+    <div class="slide">
+      <div class="card highlight">
+        Desenvolvimento pleno<br>
+        Cidadania<br>
+        Trabalho
+      </div>
+    </div>
+  `,
 
-  "CONCLUSÃO\n\nSem avaliação, tudo fica no papel"
+  // 🔵 PROBLEMA (LISTA + DESTAQUE)
+  () => `
+    <div class="slide grid2">
+      <div class="card">
+        <h2>Problema</h2>
+        distância teoria × prática
+      </div>
+
+      <div class="card">
+        desigualdade<br>
+        baixo desempenho<br>
+        ensino descontextualizado
+      </div>
+    </div>
+  `,
+
+  // 🔵 AVALIAÇÃO (FLUXO)
+  () => `
+    <div class="slide">
+      <div class="titulo-slide">Avaliação</div>
+
+      <div class="fluxo">
+        Diagnosticar → Acompanhar → Intervir
+      </div>
+    </div>
+  `,
+
+  // 🔵 CONCLUSÃO
+  () => `
+    <div class="slide">
+      <div class="card highlight">
+        Sem avaliação,<br>
+        os princípios não se concretizam
+      </div>
+    </div>
+  `
 ];
 //===========================================
 function proximo(){
 
   // primeira vez → abre modo slide
-  if(slide === 0){
+   if(slide === 0){
     slideBox.style.display = "flex";
     app.style.display = "none";
+    topbar.style.display = "none"; //  adiciona isso
   }
 
   if(slide < slides.length){
@@ -389,11 +500,6 @@ function proximo(){
     slide++;
   }
 
-  if(slide === 0){
-    slideBox.style.display = "flex";
-    app.style.display = "none";
-    topbar.style.display = "none"; //  adiciona isso
-  }
 
 }
 //===========================================
