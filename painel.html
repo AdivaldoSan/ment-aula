@@ -496,7 +496,7 @@ function proximo(){
   }
 
   if(slide < slides.length){
-    slideBox.innerText = slides[slide];
+    slideBox.innerHTML = slides[slide]();
     slide++;
   }
 
