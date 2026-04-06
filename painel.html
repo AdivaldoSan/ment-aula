@@ -203,6 +203,25 @@ h3{
 
   box-shadow:0 0 10px rgba(0,0,0,0.3);
 }  
+
+#reset{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+
+  width:45px;
+  height:45px;
+  border-radius:50%;
+
+  border:none;
+  font-size:18px;
+
+  background: rgba(255,255,255,0.2);
+  color:white;
+
+  backdrop-filter: blur(6px);
+  cursor:pointer;
+}
   
 </style>
 </head>
@@ -253,6 +272,7 @@ h3{
 <div id="nav">
   <button onclick="voltar()">◀</button>
   <button onclick="proximo()">▶</button>
+  <button id="reset" onclick="limpar()">⟲</button>
 </div>
 
 <script>
@@ -399,6 +419,28 @@ function voltar(){
     window.location.href = "index.html";
   }
 } 
+//==============================================
+function limpar(){
+
+  const confirmar = confirm("Limpar todas as respostas?");
+
+  if(!confirmar) return;
+
+  db.ref("respostas").remove();
+
+  // limpa tela também (evita delay visual)
+  palavras1 = {};
+  palavras3 = {};
+  respostas2 = {
+    "Sim":0,
+    "Parcialmente":0,
+    "Não":0
+  };
+
+  p1.innerHTML = "";
+  p2.innerHTML = "";
+  p3.innerHTML = "";
+}
 </script>
 
 </body>
