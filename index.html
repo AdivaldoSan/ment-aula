@@ -152,10 +152,62 @@ h3{
   font-size:32px;
   padding:40px;
 }
+
+#topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:50px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+
+  font-weight:bold;
+  z-index:1000;
+}
+
+/* empurra layout */
+#app{
+  margin-top:50px;
+}  
+
+#nav{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+  z-index:999;
+}
+
+#nav button{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  border:none;
+  font-size:20px;
+
+  background:white;
+  color:black;
+  cursor:pointer;
+
+  box-shadow:0 0 10px rgba(0,0,0,0.3);
+}  
+  
 </style>
 </head>
 
 <body>
+  
+<div id="topbar">
+ Princípios e Finalidades da educação nacional.
+</div>
 
 <div id="app">
 
@@ -173,17 +225,17 @@ h3{
   <div id="right">
 
     <div class="box">
-      <h3>P1 - Objetivo</h3>
+      <h3>P1 - Qual o principal objetivo da educação?</h3>
       <div id="p1"></div>
     </div>
 
     <div class="box">
-      <h3>P2 - Qualidade</h3>
+      <h3>P2 - A escola garante qualidade?</h3>
       <div id="p2"></div>
     </div>
 
     <div class="box">
-      <h3>P3 - Funcionamento</h3>
+      <h3>P3 - Como saber se a educação funciona?</h3>
       <div id="p3"></div>
     </div>
 
@@ -194,7 +246,10 @@ h3{
 <!-- SLIDES -->
 <div id="slideBox"></div>
 
-<button id="btn" onclick="proximo()">AVANÇAR</button>
+<div id="nav">
+  <button onclick="voltar()">◀</button>
+  <button onclick="proximo()">▶</button>
+</div>
 
 <script>
 
@@ -295,7 +350,7 @@ const slides = [
 
   "CONCLUSÃO\n\nSem avaliação, tudo fica no papel"
 ];
-
+//===========================================
 function proximo(){
 
   // primeira vez → abre modo slide
@@ -309,7 +364,28 @@ function proximo(){
     slide++;
   }
 
+  if(slide === 0){
+    slideBox.style.display = "flex";
+    app.style.display = "none";
+    topbar.style.display = "none"; //  adiciona isso
+  }
+
 }
+//===========================================
+function voltar(){
+
+  if(slide > 1){
+    slide -= 2;
+    proximo();
+  }
+
+  if(slide <= 1){
+    slide = 0;
+    slideBox.style.display = "none";
+    app.style.display = "grid";
+    topbar.style.display = "flex";
+  }
+}  
 </script>
 
 </body>
