@@ -276,6 +276,7 @@ h3{
 <button id="reset" onclick="limpar()">⟲</button>
 
 <script>
+const SENHA_RESET = "1234"; // ← escolha sua senha
 
 // =================== ESTADO ===================
 let slide = 0;
@@ -422,13 +423,23 @@ function voltar(){
 //==============================================
 function limpar(){
 
-  const confirmar = confirm("Limpar todas as respostas?");
+  const senha = prompt("Para resetar as respostas, digite a senha:");
+
+  if(senha === null) return; // cancelou
+
+  if(senha !== SENHA_RESET){
+    alert("Senha incorreta ❌");
+    return;
+  }
+
+  const confirmar = confirm("Confirmar limpeza de todas as respostas?");
 
   if(!confirmar) return;
 
+  // limpa banco
   db.ref("respostas").remove();
 
-  // limpa tela também (evita delay visual)
+  // limpa tela
   palavras1 = {};
   palavras3 = {};
   respostas2 = {
