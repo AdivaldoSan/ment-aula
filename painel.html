@@ -374,18 +374,27 @@ function proximo(){
 //===========================================
 function voltar(){
 
+  // 🟢 se está dentro dos slides
   if(slide > 1){
     slide -= 2;
     proximo();
+    return;
   }
 
-  if(slide <= 1){
+  // 🟡 se está no início dos slides → volta para painel
+  if(slide === 1){
     slide = 0;
     slideBox.style.display = "none";
     app.style.display = "grid";
     topbar.style.display = "flex";
+    return;
   }
-}  
+
+  // 🔴 se já está no painel → volta pra capa (index.html)
+  if(slide === 0){
+    window.location.href = "index.html";
+  }
+} 
 </script>
 
 </body>
