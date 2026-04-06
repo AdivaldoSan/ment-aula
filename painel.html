@@ -281,6 +281,11 @@ h3{
 .bolha:nth-child(2){ top:200px; right:300px; }
 .bolha:nth-child(3){ bottom:200px; left:300px; }
 .bolha:nth-child(4){ bottom:200px; right:300px; }
+
+.fade{
+  opacity:0;
+  transition: opacity 0.4s ease;
+}  
   
 </style>
 </head>
@@ -526,16 +531,23 @@ function proximo(){
   }
 
   // 🔵 mapa → zoom + conteúdo
-  if(etapa === "mapa"){
-    zoomBolha(atual);
+if(etapa === "mapa"){
 
-    setTimeout(()=>{
-      slides[atual + 1]();
-      etapa = "conteudo";
-    },700);
+  zoomBolha(atual);
 
-    return;
-  }
+  // fade antes de trocar
+  slideBox.classList.add("fade");
+
+  setTimeout(()=>{
+    slides[atual + 1]();
+
+    slideBox.classList.remove("fade");
+
+    etapa = "conteudo";
+  },800);
+
+  return;
+}
 
   // 🟢 conteúdo → volta mapa
   if(etapa === "conteudo"){
@@ -629,7 +641,14 @@ function zoomBolha(index){
   const dx = (window.innerWidth/2) - cx;
   const dy = (window.innerHeight/2) - cy;
 
+  // zoom inicial
   mapa.style.transform = `translate(${dx}px, ${dy}px) scale(2)`;
+
+  // 🔥 SEGUNDO ZOOM (efeito entrar)
+  setTimeout(()=>{
+    mapa.style.transform = `translate(${dx}px, ${dy}px) scale(4)`;
+  },400);
+
 }
 //====================================
 function resetMapa(){
