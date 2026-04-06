@@ -222,77 +222,6 @@ h3{
   backdrop-filter: blur(6px);
   cursor:pointer;
 }
-
-
-.conteudo{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:40px;
-  width:80%;
-  font-size:22px;
-}
-
-.conteudo h2{
-  margin-bottom:10px;
-}
-
-#viewport{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  position:relative;
-}
-
-#mapa{
-  width:100%;
-  height:100%;
-  position:absolute;
-  transform-origin:center;
-  transition: transform 0.7s ease;
-}
-
-.b1{ top:20%; left:20%; }
-.b2{ top:20%; right:20%; }
-.b3{ bottom:20%; left:20%; }
-.b4{ bottom:20%; right:20%; }
-
-/* bolhas maiores e mais bonitas */
-.bolha{
-  position:absolute;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  font-weight:bold;
-  font-size:20px;
-
-  background: linear-gradient(135deg, #00c853, #69f0ae);
-  color:#000;
-
-  box-shadow:0 0 40px rgba(0,0,0,0.3);
-}
-
-.fade{
-  opacity:0;
-  transition: opacity 0.4s ease;
-}  
-
-.inner{
-  opacity:0;
-  transform:scale(0.5);
-  transition:0.5s;
-  text-align:center;
-  font-size:18px;
-}
-.titulo{
-  position:absolute;
-  text-align:center;
-  font-weight:bold;
-}
   
 </style>
 </head>
@@ -351,8 +280,6 @@ const SENHA_RESET = "1234"; // ← escolha sua senha
 
 // =================== ESTADO ===================
 let slide = 0;
-let etapa = "mapa"; // mapa | conteudo
-let atual = 0; // 0 a 3
 
 // =================== DADOS ===================
 let palavras1 = {};
@@ -436,236 +363,63 @@ db.ref("respostas").on("child_added", snap => {
 // =================== SLIDES ===================
 const slides = [
 
-  // 🔴 SLIDE 0 → MAPA (PREZI)
-() => {
-  slideBox.innerHTML = `
-    <div id="viewport">
-      <div id="mapa">
+  "PRINCÍPIOS → FINALIDADES → PROBLEMA → AVALIAÇÃO",
 
-      <div class="bolha b1">
-  <div class="titulo">PRINCÍPIOS</div>
+  "PRINCÍPIOS\n\nCF art.206 + LDB art.3º",
 
-  <div class="inner">
-    <h2>Princípios</h2>
+  "FINALIDADES\n\nFormação, cidadania, trabalho",
 
-    CF art. 206<br>
-    LDB art. 3º<br><br>
+  "PROBLEMA\n\nDistância entre teoria e prática",
 
-    igualdade de acesso<br>
-    liberdade de aprender<br>
-    pluralismo de ideias<br>
-    gestão democrática<br>
-    padrão de qualidade<br><br>
+  "AVALIAÇÃO\n\nDiagnosticar → acompanhar → intervir",
 
-    → orientam como a educação deve acontecer
-  </div>
-</div>
-
-       <div class="bolha b2">
-  <div class="titulo">FINALIDADES</div>
-
-  <div class="inner">
-    <h2>Finalidades</h2>
-
-    LDB art. 2º<br><br>
-
-    desenvolvimento pleno<br>
-    exercício da cidadania<br>
-    preparação para o trabalho<br><br>
-
-    → indicam para que educar
-  </div>
-</div>
-
-       <div class="bolha b3">
-  <div class="titulo">PROBLEMA</div>
-
-  <div class="inner">
-    <h2>Problema</h2>
-
-    distância entre teoria e prática<br><br>
-
-    desigualdade educacional<br>
-    baixo desempenho<br>
-    ensino descontextualizado<br><br>
-
-    → princípios e finalidades nem sempre se concretizam
-  </div>
-</div>
-
-        <div class="bolha b4">
-  <div class="titulo">AVALIAÇÃO</div>
-
-  <div class="inner">
-    <h2>Avaliação</h2>
-
-    avaliar para compreender<br><br>
-
-    diagnosticar<br>
-    acompanhar<br>
-    intervir<br><br>
-
-    avaliação formativa<br>
-    tomada de decisão<br><br>
-
-    → garante que os princípios e finalidades sejam efetivados
-  </div>
-</div>
-
-      </div>
-    </div>
-  `;
-},
-
-  // 🔵 SLIDE 1
-  () => {
-    slideBox.innerHTML = `
-      <div class="conteudo">
-        <div>
-          <h2>Princípios</h2>
-          CF art. 206<br>
-          LDB art. 3º
-        </div>
-        <div>
-          igualdade<br>
-          liberdade<br>
-          qualidade<br>
-          gestão democrática
-        </div>
-      </div>
-    `;
-  },
-
-  // 🔵 SLIDE 2
-  () => {
-    slideBox.innerHTML = `
-      <div class="conteudo">
-        <div>
-          <h2>Finalidades</h2>
-          LDB art. 2º
-        </div>
-        <div>
-          desenvolvimento<br>
-          cidadania<br>
-          trabalho
-        </div>
-      </div>
-    `;
-  },
-
-  // 🔵 SLIDE 3
-  () => {
-    slideBox.innerHTML = `
-      <div class="conteudo">
-        <div>
-          <h2>Problema</h2>
-        </div>
-        <div>
-          desigualdade<br>
-          baixa aprendizagem<br>
-          distância teoria/prática
-        </div>
-      </div>
-    `;
-  },
-
-  // 🔵 SLIDE 4
-  () => {
-    slideBox.innerHTML = `
-      <div class="conteudo">
-        <div>
-          <h2>Avaliação</h2>
-        </div>
-        <div>
-          diagnosticar<br>
-          acompanhar<br>
-          intervir
-        </div>
-      </div>
-    `;
-  }
-
+  "CONCLUSÃO\n\nSem avaliação, tudo fica no papel"
 ];
 //===========================================
 function proximo(){
 
-  // entrar nos slides
+  // primeira vez → abre modo slide
   if(slide === 0){
     slideBox.style.display = "flex";
     app.style.display = "none";
-    topbar.style.display = "none";
-
-    slides[0](); // mapa
-    slide = 1;
-    etapa = "mapa";
-    atual = 0;
-    return;
   }
 
-  // 🔵 mapa → zoom + conteúdo
-if(etapa === "mapa"){
-
-  zoomBolha(atual);
-
-  // fade antes de trocar
-  slideBox.classList.add("fade");
-
-  setTimeout(()=>{
-    slides[atual + 1]();
-
-    slideBox.classList.remove("fade");
-
-    etapa = "conteudo";
-  },800);
-
-  return;
-}
-
-  // 🟢 conteúdo → volta mapa
-  if(etapa === "conteudo"){
-
-    slides[0]();
-    resetMapa();
-
-    atual++;
-
-    if(atual > 3){
-      return;
-    }
-
-    etapa = "mapa";
+  if(slide < slides.length){
+    slideBox.innerText = slides[slide];
+    slide++;
   }
+
+  if(slide === 0){
+    slideBox.style.display = "flex";
+    app.style.display = "none";
+    topbar.style.display = "none"; //  adiciona isso
+  }
+
 }
 //===========================================
 function voltar(){
 
-  if(etapa === "conteudo"){
-    slides[0]();
-    resetMapa();
-    etapa = "mapa";
+  // 🟢 se está dentro dos slides
+  if(slide > 1){
+    slide -= 2;
+    proximo();
     return;
   }
 
-  if(etapa === "mapa"){
-
-    atual--;
-
-    if(atual < 0){
-      slide = 0;
-      slideBox.style.display = "none";
-      app.style.display = "grid";
-      topbar.style.display = "flex";
-      return;
-    }
-
-    zoomBolha(atual);
-
-    setTimeout(()=>{
-      slides[atual + 1]();
-      etapa = "conteudo";
-    },700);
+  // 🟡 se está no início dos slides → volta para painel
+  if(slide === 1){
+    slide = 0;
+    slideBox.style.display = "none";
+    app.style.display = "grid";
+    topbar.style.display = "flex";
+    return;
   }
-}
+
+  // 🔴 se já está no painel → volta pra capa (index.html)
+  if(slide === 0){
+    window.location.href = "index.html";
+  }
+} 
 //==============================================
 function limpar(){
 
@@ -697,63 +451,6 @@ function limpar(){
   p1.innerHTML = "";
   p2.innerHTML = "";
   p3.innerHTML = "";
-}
-//=============================================
-function zoomBolha(index){
-
-  const mapa = document.getElementById("mapa");
-  const bolhas = document.querySelectorAll(".bolha");
-  const viewport = document.getElementById("viewport");
-
-  const b = bolhas[index];
-
-  // posição relativa ao mapa
-  const rectMapa = mapa.getBoundingClientRect();
-  const rectBolha = b.getBoundingClientRect();
-
-  const cx = rectBolha.left - rectMapa.left + rectBolha.width/2;
-  const cy = rectBolha.top - rectMapa.top + rectBolha.height/2;
-
-  const dx = (viewport.clientWidth/2) - cx;
-  const dy = (viewport.clientHeight/2) - cy;
-
-  mapa.style.transform = `translate(${dx}px, ${dy}px) scale(3)`;
-
-  bolhas.forEach((el, i)=>{
-    if(i !== index){
-      el.style.opacity = "0.05";
-    }
-  });
-
-  setTimeout(()=>{
-    const inner = b.querySelector(".inner");
-    inner.style.opacity = "1";
-    inner.style.transform = "scale(1)";
-  },500);
-}
-//====================================
-function resetMapa(){
-
-  const mapa = document.getElementById("mapa");
-  const bolhas = document.querySelectorAll(".bolha");
-
-  mapa.style.transform = "scale(1)";
-
-  bolhas.forEach(b=>{
-    b.style.opacity = "1";
-
-    const inner = b.querySelector(".inner");
-    if(inner){
-      inner.style.opacity = "0";
-      inner.style.transform = "scale(0.5)";
-    }
-  });
-}
-//====================================
-function mostrarSlide(num){
-  slide = num;
-
-  slides[slide]();
 }
 </script>
 
