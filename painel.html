@@ -276,12 +276,6 @@ h3{
   box-shadow:0 0 40px rgba(0,0,0,0.3);
 }
 
-/* posições no "mapa grande" */
-.bolha:nth-child(1){ top:200px; left:300px; }
-.bolha:nth-child(2){ top:200px; right:300px; }
-.bolha:nth-child(3){ bottom:200px; left:300px; }
-.bolha:nth-child(4){ bottom:200px; right:300px; }
-
 .fade{
   opacity:0;
   transition: opacity 0.4s ease;
@@ -293,6 +287,11 @@ h3{
   transition:0.5s;
   text-align:center;
   font-size:18px;
+}
+.titulo{
+  position:absolute;
+  text-align:center;
+  font-weight:bold;
 }
   
 </style>
@@ -443,45 +442,75 @@ const slides = [
     <div id="viewport">
       <div id="mapa">
 
-        <div class="bolha b1">
-          <div class="inner">
-            <h2>Princípios</h2>
-            CF art. 206<br>
-            LDB art. 3º<br><br>
-            igualdade<br>
-            liberdade<br>
-            qualidade<br>
-            gestão democrática
-          </div>
-        </div>
+      <div class="bolha b1">
+  <div class="titulo">PRINCÍPIOS</div>
 
-        <div class="bolha b2">
-          <div class="inner">
-            <h2>Finalidades</h2>
-            LDB art. 2º<br><br>
-            desenvolvimento<br>
-            cidadania<br>
-            trabalho
-          </div>
-        </div>
+  <div class="inner">
+    <h2>Princípios</h2>
 
-        <div class="bolha b3">
-          <div class="inner">
-            <h2>Problema</h2><br>
-            desigualdade<br>
-            baixa aprendizagem<br>
-            distância teoria/prática
-          </div>
-        </div>
+    CF art. 206<br>
+    LDB art. 3º<br><br>
+
+    igualdade de acesso<br>
+    liberdade de aprender<br>
+    pluralismo de ideias<br>
+    gestão democrática<br>
+    padrão de qualidade<br><br>
+
+    → orientam como a educação deve acontecer
+  </div>
+</div>
+
+       <div class="bolha b2">
+  <div class="titulo">FINALIDADES</div>
+
+  <div class="inner">
+    <h2>Finalidades</h2>
+
+    LDB art. 2º<br><br>
+
+    desenvolvimento pleno<br>
+    exercício da cidadania<br>
+    preparação para o trabalho<br><br>
+
+    → indicam para que educar
+  </div>
+</div>
+
+       <div class="bolha b3">
+  <div class="titulo">PROBLEMA</div>
+
+  <div class="inner">
+    <h2>Problema</h2>
+
+    distância entre teoria e prática<br><br>
+
+    desigualdade educacional<br>
+    baixo desempenho<br>
+    ensino descontextualizado<br><br>
+
+    → princípios e finalidades nem sempre se concretizam
+  </div>
+</div>
 
         <div class="bolha b4">
-          <div class="inner">
-            <h2>Avaliação</h2><br>
-            diagnosticar<br>
-            acompanhar<br>
-            intervir
-          </div>
-        </div>
+  <div class="titulo">AVALIAÇÃO</div>
+
+  <div class="inner">
+    <h2>Avaliação</h2>
+
+    avaliar para compreender<br><br>
+
+    diagnosticar<br>
+    acompanhar<br>
+    intervir<br><br>
+
+    avaliação formativa<br>
+    tomada de decisão<br><br>
+
+    → garante que os princípios e finalidades sejam efetivados
+  </div>
+</div>
 
       </div>
     </div>
@@ -674,15 +703,19 @@ function zoomBolha(index){
 
   const mapa = document.getElementById("mapa");
   const bolhas = document.querySelectorAll(".bolha");
+  const viewport = document.getElementById("viewport");
 
   const b = bolhas[index];
-  const rect = b.getBoundingClientRect();
 
-  const cx = rect.left + rect.width/2;
-  const cy = rect.top + rect.height/2;
+  // posição relativa ao mapa
+  const rectMapa = mapa.getBoundingClientRect();
+  const rectBolha = b.getBoundingClientRect();
 
-  const dx = (window.innerWidth/2) - cx;
-  const dy = (window.innerHeight/2) - cy;
+  const cx = rectBolha.left - rectMapa.left + rectBolha.width/2;
+  const cy = rectBolha.top - rectMapa.top + rectBolha.height/2;
+
+  const dx = (viewport.clientWidth/2) - cx;
+  const dy = (viewport.clientHeight/2) - cy;
 
   mapa.style.transform = `translate(${dx}px, ${dy}px) scale(3)`;
 
