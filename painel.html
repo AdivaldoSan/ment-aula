@@ -254,7 +254,7 @@ h3{
 .bolha:nth-child(4){ bottom:20%; right:20%; }
 
 .bolha:hover{
-  transform:scale(1.1);
+  transform:scale(1.5);
 }
 .conteudo{
   display:grid;
@@ -267,6 +267,47 @@ h3{
 .conteudo h2{
   margin-bottom:10px;
 }
+
+#viewport{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  position:relative;
+}
+
+#mapa{
+  width:2000px;
+  height:1200px;
+  position:absolute;
+
+  transition: transform 0.8s ease;
+}
+
+/* bolhas maiores e mais bonitas */
+.bolha{
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  font-weight:bold;
+  font-size:20px;
+
+  background: linear-gradient(135deg, #00c853, #69f0ae);
+  color:#000;
+
+  box-shadow:0 0 40px rgba(0,0,0,0.3);
+}
+
+/* posições no "mapa grande" */
+.bolha:nth-child(1){ top:200px; left:300px; }
+.bolha:nth-child(2){ top:200px; right:300px; }
+.bolha:nth-child(3){ bottom:200px; left:300px; }
+.bolha:nth-child(4){ bottom:200px; right:300px; }
   
 </style>
 </head>
@@ -409,16 +450,20 @@ db.ref("respostas").on("child_added", snap => {
 const slides = [
 
   // 🔴 SLIDE 0 → MAPA (PREZI)
-  () => {
-    slideBox.innerHTML = `
+ () => {
+  slideBox.innerHTML = `
+    <div id="viewport">
       <div id="mapa">
-        <div class="bolha">PRINCÍPIOS</div>
-        <div class="bolha">FINALIDADES</div>
-        <div class="bolha">PROBLEMA</div>
-        <div class="bolha">AVALIAÇÃO</div>
+
+        <div class="bolha" onclick="zoomPara(0)">PRINCÍPIOS</div>
+        <div class="bolha" onclick="zoomPara(1)">FINALIDADES</div>
+        <div class="bolha" onclick="zoomPara(2)">PROBLEMA</div>
+        <div class="bolha" onclick="zoomPara(3)">AVALIAÇÃO</div>
+
       </div>
-    `;
-  },
+    </div>
+  `;
+},
 
   // 🔵 SLIDE 1
   () => {
@@ -492,18 +537,20 @@ const slides = [
 //===========================================
 function proximo(){
 
-  // primeira vez → abre modo slide
   if(slide === 0){
     slideBox.style.display = "flex";
     app.style.display = "none";
     topbar.style.display = "none";
+
+    slides[0](); // mostra mapa
+    slide++;
+    return;
   }
 
   if(slide < slides.length){
     slides[slide]();
     slide++;
   }
-
 }
 //===========================================
 function voltar(){
@@ -560,6 +607,31 @@ function limpar(){
   p1.innerHTML = "";
   p2.innerHTML = "";
   p3.innerHTML = "";
+}
+//=============================================
+function zoomPara(index){
+
+  const mapa = document.getElementById("mapa");
+
+  const posicoes = [
+    "translate(-200px,-150px) scale(1.8)", // PRINCÍPIOS
+    "translate(-900px,-150px) scale(1.8)", // FINALIDADES
+    "translate(-200px,-700px) scale(1.8)", // PROBLEMA
+    "translate(-900px,-700px) scale(1.8)"  // AVALIAÇÃO
+  ];
+
+  mapa.style.transform = posicoes[index];
+
+  // depois do zoom → mostra conteúdo
+  setTimeout(()=>{
+    mostrarSlide(index + 1);
+  },800);
+}
+//====================================
+function mostrarSlide(num){
+  slide = num;
+
+  slides[slide]();
 }
 </script>
 
