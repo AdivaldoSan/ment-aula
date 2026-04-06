@@ -223,39 +223,7 @@ h3{
   cursor:pointer;
 }
 
-#mapa{
-  width:100%;
-  height:100%;
-  position:relative;
-}
 
-.bolha{
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-
-  font-weight:bold;
-  cursor:pointer;
-
-  background: linear-gradient(135deg, #00c853, #69f0ae);
-  color:#000;
-
-  transition:0.4s;
-}
-
-.bolha:nth-child(1){ top:20%; left:20%; }
-.bolha:nth-child(2){ top:20%; right:20%; }
-.bolha:nth-child(3){ bottom:20%; left:20%; }
-.bolha:nth-child(4){ bottom:20%; right:20%; }
-
-.bolha:hover{
-  transform:scale(1.5);
-}
 .conteudo{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -276,12 +244,17 @@ h3{
 }
 
 #mapa{
-  width:2000px;
-  height:1200px;
+  width:100%;
+  height:100%;
   position:absolute;
-
-  transition: transform 0.8s ease;
+  transform-origin:center;
+  transition: transform 0.7s ease;
 }
+
+.b1{ top:20%; left:20%; }
+.b2{ top:20%; right:20%; }
+.b3{ bottom:20%; left:20%; }
+.b4{ bottom:20%; right:20%; }
 
 /* bolhas maiores e mais bonitas */
 .bolha{
@@ -366,6 +339,8 @@ const SENHA_RESET = "1234"; // ← escolha sua senha
 
 // =================== ESTADO ===================
 let slide = 0;
+let etapa = "mapa"; // mapa | conteudo
+let atual = 0; // 0 a 3
 
 // =================== DADOS ===================
 let palavras1 = {};
@@ -455,10 +430,10 @@ const slides = [
     <div id="viewport">
       <div id="mapa">
 
-        <div class="bolha" onclick="zoomPara(0)">PRINCÍPIOS</div>
-        <div class="bolha" onclick="zoomPara(1)">FINALIDADES</div>
-        <div class="bolha" onclick="zoomPara(2)">PROBLEMA</div>
-        <div class="bolha" onclick="zoomPara(3)">AVALIAÇÃO</div>
+       <div class="bolha b1">PRINCÍPIOS</div>
+        <div class="bolha b2">FINALIDADES</div>
+        <div class="bolha b3">PROBLEMA</div>
+        <div class="bolha b4">AVALIAÇÃO</div>
 
       </div>
     </div>
@@ -537,45 +512,76 @@ const slides = [
 //===========================================
 function proximo(){
 
+  // entrar nos slides
   if(slide === 0){
     slideBox.style.display = "flex";
     app.style.display = "none";
     topbar.style.display = "none";
 
-    slides[0](); // mostra mapa
-    slide++;
+    slides[0](); // mapa
+    slide = 1;
+    etapa = "mapa";
+    atual = 0;
     return;
   }
 
-  if(slide < slides.length){
-    slides[slide]();
-    slide++;
+  // 🔵 mapa → zoom + conteúdo
+  if(etapa === "mapa"){
+    zoomBolha(atual);
+
+    setTimeout(()=>{
+      slides[atual + 1]();
+      etapa = "conteudo";
+    },700);
+
+    return;
+  }
+
+  // 🟢 conteúdo → volta mapa
+  if(etapa === "conteudo"){
+
+    slides[0]();
+    resetMapa();
+
+    atual++;
+
+    if(atual > 3){
+      return;
+    }
+
+    etapa = "mapa";
   }
 }
 //===========================================
 function voltar(){
 
-  // 🟢 se está dentro dos slides
-  if(slide > 1){
-    slide -= 2;
-    proximo();
+  if(etapa === "conteudo"){
+    slides[0]();
+    resetMapa();
+    etapa = "mapa";
     return;
   }
 
-  // 🟡 se está no início dos slides → volta para painel
-  if(slide === 1){
-    slide = 0;
-    slideBox.style.display = "none";
-    app.style.display = "grid";
-    topbar.style.display = "flex";
-    return;
-  }
+  if(etapa === "mapa"){
 
-  // 🔴 se já está no painel → volta pra capa (index.html)
-  if(slide === 0){
-    window.location.href = "index.html";
+    atual--;
+
+    if(atual < 0){
+      slide = 0;
+      slideBox.style.display = "none";
+      app.style.display = "grid";
+      topbar.style.display = "flex";
+      return;
+    }
+
+    zoomBolha(atual);
+
+    setTimeout(()=>{
+      slides[atual + 1]();
+      etapa = "conteudo";
+    },700);
   }
-} 
+}
 //==============================================
 function limpar(){
 
@@ -609,23 +615,25 @@ function limpar(){
   p3.innerHTML = "";
 }
 //=============================================
-function zoomPara(index){
+function zoomBolha(index){
 
   const mapa = document.getElementById("mapa");
+  const bolhas = document.querySelectorAll(".bolha");
 
-  const posicoes = [
-    "translate(-200px,-150px) scale(1.8)", // PRINCÍPIOS
-    "translate(-900px,-150px) scale(1.8)", // FINALIDADES
-    "translate(-200px,-700px) scale(1.8)", // PROBLEMA
-    "translate(-900px,-700px) scale(1.8)"  // AVALIAÇÃO
-  ];
+  const b = bolhas[index];
+  const rect = b.getBoundingClientRect();
 
-  mapa.style.transform = posicoes[index];
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
 
-  // depois do zoom → mostra conteúdo
-  setTimeout(()=>{
-    mostrarSlide(index + 1);
-  },800);
+  const dx = (window.innerWidth/2) - cx;
+  const dy = (window.innerHeight/2) - cy;
+
+  mapa.style.transform = `translate(${dx}px, ${dy}px) scale(2)`;
+}
+//====================================
+function resetMapa(){
+  document.getElementById("mapa").style.transform = "scale(1)";
 }
 //====================================
 function mostrarSlide(num){
