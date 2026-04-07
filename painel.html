@@ -394,44 +394,43 @@ h3{
   border-left:2px solid rgba(255,255,255,0.3);
   margin-bottom:8px;
 }
-
-.bg-titulo{
+.bg-principio{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
 
-  font-size:120px;
-  font-weight:bold;
-  letter-spacing:10px;
+  font-size:140px;
+  font-weight:900;
+  letter-spacing:12px;
 
-  color:rgba(255,255,255,0.05);
-  z-index:0;
+  /* TRAPÉZIO COM GRADIENTE */
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.08) 0%,
+    rgba(255,255,255,0.02) 100%
+  );
+
+  /* faz o gradiente aparecer só no texto */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  /* efeito base mais larga (ilusão de trapézio) */
+  transform: translate(-50%, -50%) scaleY(1.2) scaleX(1.1);
+
+  opacity:0.4;
   pointer-events:none;
-}
-
-/* forma tipo sombra/trapézio */
-.bg-shape{
-  position:absolute;
-  bottom:-100px;
-  left:50%;
-  transform:translateX(-50%);
-
-  width:120%;
-  height:80%;
-
-  background:rgba(0,0,0,0.25);
-  filter:blur(40px);
-
-  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
   z-index:0;
 }
 
-/* garantir que conteúdo fica na frente */
+/* garante que cards ficam na frente */
 .slide{
   position:relative;
   z-index:1;
 }
+
+
+
 </style>
 </head>
 
@@ -625,8 +624,7 @@ const slides = [
 () => `
   <div class="slide">
 
-    <div class="bg-titulo">PRINCÍPIOS</div>
-    <div class="bg-shape"></div>
+    <div class="bg-principio">PRINCÍPIOS</div>
 
     <div class="grid3">
 
