@@ -303,6 +303,62 @@ h3{
   font-size:26px;
   line-height:1.5;
 } 
+
+.sub{
+  font-size:20px;
+  opacity:0.85;
+  margin-top:10px;
+}
+
+.estrutura{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:25px;
+  flex-wrap:wrap;
+}
+
+/* bloco */
+.item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+
+/* círculo */
+.circulo{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:bold;
+
+  background: linear-gradient(135deg, #00c853, #69f0ae);
+  color:#000;
+}
+
+/* destaque no problema */
+.destaque .circulo{
+  background: linear-gradient(135deg, #ff5252, #ff8a80);
+}
+
+/* seta */
+.seta{
+  font-size:28px;
+  opacity:0.7;
+}
+.slide{
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
 </style>
 </head>
 
@@ -443,17 +499,54 @@ db.ref("respostas").on("child_added", snap => {
 // =================== SLIDES ===================
 const slides = [
 
-  // 🔴 VISÃO GERAL
-  () => `
-    <div class="slide center">
-      <div class="titulo-slide">Educação: estrutura e tensão</div>
+  // 🔴 SLIDE 0 (MELHORADO)
+() => `
+  <div class="slide">
 
-      Princípios → como deve funcionar<br>
-      Finalidades → para que educar<br>
-      Problemas → o que acontece na prática<br>
-      Avaliação → como intervir
+    <div class="titulo-slide">
+      A educação funciona como deveria?
     </div>
-  `,
+
+    <div class="sub">
+      Se temos princípios, finalidades e leis...
+      <br>
+      por que os resultados ainda são baixos?
+    </div>
+
+    <br><br>
+
+    <div class="estrutura">
+
+      <div class="item">
+        <div class="circulo">P</div>
+        <span>Princípios</span>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="item">
+        <div class="circulo">F</div>
+        <span>Finalidades</span>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="item destaque">
+        <div class="circulo">?</div>
+        <span>Problema</span>
+      </div>
+
+      <div class="seta">→</div>
+
+      <div class="item">
+        <div class="circulo">A</div>
+        <span>Avaliação</span>
+      </div>
+
+    </div>
+
+  </div>
+`,
 
   // 🔵 PRINCÍPIOS (DUAS COLUNAS)
   () => `
