@@ -484,7 +484,64 @@ h3{
 
   text-shadow: 0 0 10px rgba(105,240,174,0.2);
 }
+/* ===== PROBLEMA ===== */
 
+.problema{
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+
+/* título */
+.titulo-problema{
+  font-size:34px;
+  font-weight:700;
+  text-align:center;
+  letter-spacing:2px;
+
+  border-bottom:2px solid rgba(255,255,255,0.2);
+  padding-bottom:10px;
+}
+
+/* linha topo */
+.linha-topo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:40px;
+}
+
+/* blocos */
+.bloco{
+  font-size:20px;
+  line-height:1.6;
+  opacity:0.9;
+}
+
+/* destaque */
+.bloco.destaque{
+  color:#ff8a80;
+  font-weight:500;
+}
+
+/* dados */
+.dados{
+  text-align:center;
+  font-size:18px;
+  opacity:0.9;
+
+  border-top:1px solid rgba(255,255,255,0.15);
+  border-bottom:1px solid rgba(255,255,255,0.15);
+  padding:15px;
+}
+
+/* teoria */
+.teoria{
+  text-align:center;
+  font-size:16px;
+  opacity:0.75;
+  line-height:1.6;
+}
 
 </style>
 </head>
@@ -770,25 +827,62 @@ const slides = [
 
   // 🔵 PROBLEMA (CONTRASTE)
   () => `
-    <div class="slide split">
+<div class="slide problema">
 
-      <div class="col">
-        <h3>O que a lei diz</h3>
-        educação justa<br>
-        qualidade<br>
-        formação integral
-      </div>
+  <div class="titulo-problema">
+    O PROBLEMA
+  </div>
 
-      <div class="col">
-        <h3>O que acontece</h3>
-        desigualdade<br>
-        baixa aprendizagem<br>
-        foco em nota<br>
-        dificuldade de gestão
-      </div>
+  <!-- LINHA 1: CONTRASTE -->
+  <div class="linha-topo">
 
+    <div class="bloco">
+      <h3>O que a lei propõe</h3>
+      educação justa<br>
+      qualidade para todos<br>
+      formação integral
     </div>
-  `,
+
+    <div class="seta">→</div>
+
+    <div class="bloco destaque">
+      <h3>O que se observa</h3>
+      desigualdade educacional<br>
+      baixa aprendizagem<br>
+      foco em nota<br>
+      fragilidade na gestão democrática
+    </div>
+
+  </div>
+
+  <!-- LINHA 2: EVIDÊNCIA -->
+  <div class="dados">
+
+    <b>O problema não é percepção — é evidência:</b><br><br>
+
+    <b>PISA (OCDE)</b><br>
+    desempenho abaixo da média internacional<br>
+    alto percentual de alunos abaixo do nível básico<br><br>
+
+    <b>ENEM</b><br>
+    baixa proficiência média<br>
+    forte desigualdade entre redes de ensino<br><br>
+
+    → aprendizagem insuficiente em larga escala
+
+  </div>
+
+  <!-- LINHA 3: BASE TEÓRICA -->
+  <div class="teoria">
+
+    <b>Luckesi:</b> avaliação classificatória não promove aprendizagem<br>
+    <b>Perrenoud:</b> foco deve ser em competências, não memorização<br>
+    <b>Bourdieu:</b> a escola tende a reproduzir desigualdades sociais
+
+  </div>
+
+</div>
+`,
 
   // 🔵 AVALIAÇÃO (CICLO 🔁)
   () => `
