@@ -433,6 +433,43 @@ h3{
   z-index:1;
 }
 
+/* ===== FINALIDADES (estilo isolado, não quebra outros slides) ===== */
+.col-finalidade{
+  background: rgba(0,0,0,0.35);
+  padding:25px;
+  border-radius:12px;
+  backdrop-filter: blur(8px);
+}
+
+/* título */
+.col-finalidade h3{
+  font-size:22px;
+  margin-bottom:15px;
+  color:#69f0ae;
+  border-bottom:1px solid rgba(255,255,255,0.2);
+  padding-bottom:6px;
+}
+
+/* destaque (igualdade, cidadania, etc) */
+.col-finalidade b{
+  display:block;
+  margin-top:15px;
+  font-size:20px;
+}
+
+/* descrição */
+.col-finalidade small{
+  display:block;
+  font-size:14px;
+  opacity:0.8;
+  margin-bottom:8px;
+}
+
+/* opcional: leve destaque na coluna da direita */
+.col-finalidade.alerta{
+  border:2px solid rgba(255,100,100,0.5);
+}
+
 
 
 </style>
@@ -676,29 +713,34 @@ const slides = [
 
   // 🔵 FINALIDADES (CENTRO + CRÍTICA)
   () => `
-    <div class="slide">
+<div class="slide split">
 
-      <div class="center">
-        <h2>Finalidades da Educação</h2>
+  <div class="col col-finalidade">
+    <h3>Finalidades (LDB Art. 2º)</h3>
 
-        desenvolvimento pleno<br>
-        cidadania<br>
-        trabalho
-      </div>
+    <b>Desenvolvimento pleno</b>
+    <small>formação intelectual, emocional e social</small>
 
-      <br><br>
+    <b>Cidadania</b>
+    <small>participação crítica na sociedade</small>
 
-      <div class="card">
-        Na prática, muitas escolas focam em:<br>
-        memorização<br>
-        prova<br>
-        resultado imediato<br><br>
+    <b>Trabalho</b>
+    <small>preparação para a vida produtiva</small>
+  </div>
 
-        → isso distorce a finalidade real
-      </div>
+  <div class="col">
+    <h3>Na prática escolar</h3>
 
-    </div>
-  `,
+    memorização de conteúdo<br>
+    foco em prova<br>
+    pressão por resultado<br>
+    pouco desenvolvimento crítico<br><br>
+
+    ⚠ desalinhamento entre teoria e prática
+  </div>
+
+</div>
+`,
 
   // 🔵 PROBLEMA (CONTRASTE)
   () => `
