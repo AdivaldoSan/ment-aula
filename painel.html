@@ -469,7 +469,21 @@ h3{
 .col-finalidade.alerta{
   border:2px solid rgba(255,100,100,0.5);
 }
+.titulo-finalidade{
+  font-size:34px;
+  font-weight:700;
+  margin-bottom:25px;
 
+  display:inline-block;
+  padding-left:15px;
+
+  border-left:4px solid #69f0ae;
+
+  color:#ffffff;
+  letter-spacing:1px;
+
+  text-shadow: 0 0 10px rgba(105,240,174,0.2);
+}
 
 
 </style>
@@ -714,7 +728,9 @@ const slides = [
   // 🔵 FINALIDADES (CENTRO + CRÍTICA)
   () => `
 <div class="slide split">
-
+    <div class="titulo-finalidade">
+      FINALIDADES
+    </div>
   <div class="col col-finalidade">
     <h3>Finalidades (LDB Art. 2º)</h3>
 
@@ -728,7 +744,7 @@ const slides = [
     <small>preparação para a vida produtiva</small>
   </div>
 
-  <div class="col">
+  <div class="col col-finalidade alerta">
     <h3>Na prática escolar</h3>
 
     memorização de conteúdo<br>
