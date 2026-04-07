@@ -359,6 +359,41 @@ h3{
   from{opacity:0; transform:translateY(20px);}
   to{opacity:1; transform:translateY(0);}
 }
+
+.grid3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:25px;
+}
+
+.alerta{
+  border:2px solid rgba(255,100,100,0.5);
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+.card{
+  line-height:1.6;
+  font-size:18px;
+}
+
+.card b{
+  display:block;
+  font-size:20px;
+  margin-bottom:4px;
+  margin-top:10px;
+}
+
+.card small{
+  display:block;
+  font-size:14px;
+  opacity:0.75;
+  padding-left:8px;
+  border-left:2px solid rgba(255,255,255,0.3);
+  margin-bottom:8px;
+}
 </style>
 </head>
 
@@ -548,30 +583,53 @@ const slides = [
   </div>
 `,
 
-  // 🔵 PRINCÍPIOS (DUAS COLUNAS)
-  () => `
-    <div class="slide grid2">
+   // 🔵 PRINCÍPIOS (VERSÃO FORTE)
+() => `
+  <div class="slide grid3">
 
-      <div class="card">
-        <h2>Princípios</h2>
-        Constituição (art. 206)<br>
-        LDB (art. 3º)<br><br>
+    <!-- BASE LEGAL -->
+    <div class="card">
+      <h3>Base legal</h3>
+      Constituição (art. 206)<br>
+      LDB (art. 3º)<br><br>
 
-        normas que orientam a educação
-      </div>
-
-      <div class="card">
-        igualdade de acesso<br>
-        liberdade de aprender<br>
-        pluralismo de ideias<br>
-        gestão democrática<br>
-        padrão de qualidade<br><br>
-
-        ⚠ nem sempre se concretizam
-      </div>
-
+      → orientam a educação
     </div>
-  `,
+
+    <!-- PRINCÍPIOS -->
+    <div class="card">
+      <h3>Princípios</h3>
+
+      <b>igualdade de acesso</b>
+      <small>todos entram e permanecem na escola?</small>
+      
+      <b>liberdade de aprender</b>
+      <small>o aluno pode pensar criticamente ou só repetir?</small>
+      
+      <b>pluralismo de ideias</b>
+      <small>diferentes visões são respeitadas ou há padronização?</small>
+      
+      <b>gestão democrática</b>
+      <small>alunos e professores participam das decisões?</small>
+      
+      <b>padrão de qualidade</b>
+      <small>todas as escolas oferecem o mesmo nível de ensino?</small>
+    </div>
+
+    <!-- REALIDADE -->
+    <div class="card alerta">
+      <h3>Na prática</h3>
+
+      alunos sem acesso igual<br>
+      pouca participação<br>
+      ensino padronizado<br>
+      decisões centralizadas<br><br>
+
+      ⚠ direito ≠ realidade
+    </div>
+
+  </div>
+`,
 
   // 🔵 FINALIDADES (CENTRO + CRÍTICA)
   () => `
