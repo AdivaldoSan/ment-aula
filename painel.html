@@ -394,6 +394,44 @@ h3{
   border-left:2px solid rgba(255,255,255,0.3);
   margin-bottom:8px;
 }
+
+.bg-titulo{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+
+  font-size:120px;
+  font-weight:bold;
+  letter-spacing:10px;
+
+  color:rgba(255,255,255,0.05);
+  z-index:0;
+  pointer-events:none;
+}
+
+/* forma tipo sombra/trapézio */
+.bg-shape{
+  position:absolute;
+  bottom:-100px;
+  left:50%;
+  transform:translateX(-50%);
+
+  width:120%;
+  height:80%;
+
+  background:rgba(0,0,0,0.25);
+  filter:blur(40px);
+
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+  z-index:0;
+}
+
+/* garantir que conteúdo fica na frente */
+.slide{
+  position:relative;
+  z-index:1;
+}
 </style>
 </head>
 
@@ -585,47 +623,50 @@ const slides = [
 
    // 🔵 PRINCÍPIOS (VERSÃO FORTE)
 () => `
-  <div class="slide grid3">
+  <div class="slide">
 
-    <!-- BASE LEGAL -->
-    <div class="card">
-      <h3>Base legal</h3>
-      Constituição (art. 206)<br>
-      LDB (art. 3º)<br><br>
+    <div class="bg-titulo">PRINCÍPIOS</div>
+    <div class="bg-shape"></div>
 
-      → orientam a educação
-    </div>
+    <div class="grid3">
 
-    <!-- PRINCÍPIOS -->
-    <div class="card">
-      <h3>Princípios</h3>
+      <div class="card">
+        <h3>Base legal</h3>
+        Constituição (art. 206)<br>
+        LDB (art. 3º)<br><br>
+        → orientam a educação
+      </div>
 
-      <b>igualdade de acesso</b>
-      <small>todos entram e permanecem na escola?</small>
-      
-      <b>liberdade de aprender</b>
-      <small>o aluno pode pensar criticamente ou só repetir?</small>
-      
-      <b>pluralismo de ideias</b>
-      <small>diferentes visões são respeitadas ou há padronização?</small>
-      
-      <b>gestão democrática</b>
-      <small>alunos e professores participam das decisões?</small>
-      
-      <b>padrão de qualidade</b>
-      <small>todas as escolas oferecem o mesmo nível de ensino?</small>
-    </div>
+      <div class="card">
+        <h3>Princípios</h3>
 
-    <!-- REALIDADE -->
-    <div class="card alerta">
-      <h3>Na prática</h3>
+        <b>igualdade de acesso</b>
+        <small>todos entram e permanecem?</small>
 
-      alunos sem acesso igual<br>
-      pouca participação<br>
-      ensino padronizado<br>
-      decisões centralizadas<br><br>
+        <b>liberdade de aprender</b>
+        <small>o aluno pode pensar ou só repetir?</small>
 
-      ⚠ direito ≠ realidade
+        <b>pluralismo de ideias</b>
+        <small>diferentes visões são aceitas?</small>
+
+        <b>gestão democrática</b>
+        <small>há participação real?</small>
+
+        <b>padrão de qualidade</b>
+        <small>todas as escolas têm o mesmo nível?</small>
+      </div>
+
+      <div class="card alerta">
+        <h3>Na prática</h3>
+
+        desigualdade de acesso<br>
+        baixa participação<br>
+        ensino padronizado<br>
+        decisões centralizadas<br><br>
+
+        ⚠ direito ≠ realidade
+      </div>
+
     </div>
 
   </div>
