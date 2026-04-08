@@ -597,6 +597,47 @@ h3{
   opacity:0.6;
 }
 
+/* ===== FECHAMENTO ===== */
+
+.fechamento{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:40px;
+  height:100%;
+}
+
+/* linha principal */
+.linha-fechamento{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  font-size:22px;
+}
+
+/* destaque final */
+.linha-fechamento .destaque{
+  color:#69f0ae;
+  font-weight:bold;
+}
+
+/* síntese */
+.sintese{
+  font-size:18px;
+  opacity:0.75;
+  text-align:center;
+}
+
+/* frase final (impacto) */
+.frase-final{
+  font-size:26px;
+  font-weight:bold;
+  text-align:center;
+  line-height:1.4;
+
+  color:#ff8a80;
+}
 </style>
 </head>
 
@@ -999,17 +1040,38 @@ const slides = [
 
   // 🔵 AMARRAÇÃO FINAL
   () => `
-    <div class="slide center">
+<div class="slide fechamento">
 
-      Princípios → orientam<br>
-      Finalidades → direcionam<br>
-      Problemas → revelam falhas<br>
-      Avaliação → permite corrigir<br><br>
+  <div class="linha-fechamento">
 
-      <b>Sem avaliação, a educação não se ajusta</b>
+    <div>Princípios</div>
+    <div class="seta">→</div>
 
-    </div>
-  `
+    <div>Finalidades</div>
+    <div class="seta">→</div>
+
+    <div>Problemas</div>
+    <div class="seta">→</div>
+
+    <div class="destaque">Avaliação</div>
+
+  </div>
+
+  <div class="sintese">
+
+    orientam → direcionam → revelam falhas → permitem intervenção
+
+  </div>
+
+  <div class="frase-final">
+
+    Sem avaliação, não há ajuste.<br>
+    Sem ajuste, não há aprendizagem real.
+
+  </div>
+
+</div>
+`
 ];
 //===========================================
 function proximo(){
