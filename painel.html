@@ -596,6 +596,7 @@ h3{
   font-size:15px;
   opacity:0.6;
 }
+
 </style>
 </head>
 
@@ -880,6 +881,65 @@ const slides = [
 
   // 🔵 PROBLEMA (CONTRASTE)
   () => `
+<div class="slide problema">
+
+  <div class="titulo-problema">
+    O PROBLEMA
+  </div>
+
+  <!-- LINHA 1: CONTRASTE -->
+  <div class="linha-topo">
+
+    <div class="bloco">
+      <h3>O que a lei propõe</h3>
+      educação justa<br>
+      qualidade para todos<br>
+      formação integral
+    </div>
+
+    <div class="seta">→</div>
+
+    <div class="bloco destaque">
+      <h3>O que se observa</h3>
+      desigualdade educacional<br>
+      baixa aprendizagem<br>
+      foco em nota<br>
+      fragilidade na gestão democrática
+    </div>
+
+  </div>
+
+  <!-- LINHA 2: EVIDÊNCIA -->
+  <div class="dados">
+
+    <b>O problema não é percepção — é evidência:</b><br><br>
+
+    <b>PISA (OCDE)</b><br>
+    desempenho abaixo da média internacional<br>
+    alto percentual de alunos abaixo do nível básico<br><br>
+
+    <b>ENEM</b><br>
+    baixa proficiência média<br>
+    forte desigualdade entre redes de ensino<br><br>
+
+    → aprendizagem insuficiente em larga escala
+
+  </div>
+
+  <!-- LINHA 3: BASE TEÓRICA -->
+  <div class="teoria">
+
+    <b>Luckesi:</b> avaliação classificatória não promove aprendizagem<br>
+    <b>Perrenoud:</b> foco deve ser em competências, não memorização<br>
+    <b>Bourdieu:</b> a escola tende a reproduzir desigualdades sociais
+
+  </div>
+
+</div>
+`,
+
+  // 🔵 AVALIAÇÃO (CICLO 🔁)
+  () => `
 <div class="slide avaliacao">
 
   <div class="titulo-slide">
@@ -936,32 +996,6 @@ const slides = [
 
 </div>
 `,
-
-  // 🔵 AVALIAÇÃO (CICLO 🔁)
-  () => `
-    <div class="slide">
-
-      <div class="titulo-slide">Avaliação como solução</div>
-
-      <div class="ciclo">
-        <div>Diagnosticar</div>
-        <div class="seta">→</div>
-        <div>Acompanhar</div>
-        <div class="seta">→</div>
-        <div>Intervir</div>
-        <div class="seta">→</div>
-        <div>Reavaliar</div>
-      </div>
-
-      <br>
-
-      <div class="card">
-        avaliação não é só prova<br>
-        → é instrumento de decisão pedagógica
-      </div>
-
-    </div>
-  `,
 
   // 🔵 AMARRAÇÃO FINAL
   () => `
