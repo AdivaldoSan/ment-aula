@@ -672,6 +672,21 @@ h3{
 .refs br + br{
   margin-bottom:8px;
 }
+
+.autor{
+  position:absolute;
+  bottom:20px;
+  right:30px;
+
+  font-size:13px;
+  opacity:0.6;
+
+  background: rgba(0,0,0,0.3);
+  padding:6px 12px;
+  border-radius:12px;
+
+  backdrop-filter: blur(6px);
+}
 </style>
 </head>
 
@@ -857,7 +872,7 @@ const slides = [
       </div>
 
     </div>
-
+  <div class="autor">Liliangela</div>
   </div>
 `,
 
@@ -950,7 +965,7 @@ const slides = [
       ⚠ desalinhamento entre teoria e prática
       </b>
   </div>
-
+<div class="autor">Lucas</div>
 </div>
 `,
 
@@ -1009,7 +1024,7 @@ const slides = [
     <b>Bourdieu:</b> a escola tende a reproduzir desigualdades sociais
 
   </div>
-
+<div class="autor">Thiara</div>
 </div>
 `,
 
@@ -1068,7 +1083,7 @@ const slides = [
     <b>Avaliação: teoria e prática</b>
 
   </div>
-
+<div class="autor">Adivaldo</div>
 </div>
 `,
 
@@ -1149,6 +1164,7 @@ function proximo(){
     slideBox.style.display = "flex";
     app.style.display = "none";
     topbar.style.display = "none"; //  adiciona isso
+    reset.style.display = "none";
   }
 
   if(slide < slides.length){
@@ -1174,6 +1190,7 @@ function voltar(){
     slideBox.style.display = "none";
     app.style.display = "grid";
     topbar.style.display = "flex";
+    reset.style.display = "block";
     return;
   }
 
