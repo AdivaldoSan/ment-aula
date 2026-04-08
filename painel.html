@@ -638,6 +638,34 @@ h3{
 
   color:#ff8a80;
 }
+
+/* ===== REFERÊNCIAS ===== */
+
+.referencias{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100%;
+}
+
+.refs{
+  max-width:850px;
+  font-size:15px; /* 🔥 reduzido pra caber tudo */
+  line-height:1.5;
+  text-align:left;
+  opacity:0.9;
+}
+
+/* nome do autor */
+.refs{
+  color:#ffffff;
+}
+
+/* destaque leve opcional */
+.refs br + br{
+  margin-bottom:8px;
+}
 </style>
 </head>
 
@@ -1067,6 +1095,40 @@ const slides = [
 
     Sem avaliação, não há ajuste.<br>
     Sem ajuste, não há aprendizagem real.
+
+  </div>
+
+</div>
+`,
+  //REFERÊNCIAS
+  () => `
+<div class="slide referencias">
+
+  <div class="titulo-slide">
+    Referências
+  </div>
+
+  <div class="refs">
+
+    LUCKESI, Cipriano Carlos.<br>
+    Avaliação da aprendizagem escolar: estudos e proposições. São Paulo: Cortez, 2011.<br><br>
+
+    HOFFMANN, Jussara.<br>
+    Avaliação mediadora: uma prática em construção da pré-escola à universidade. Porto Alegre: Mediação, 2014.<br><br>
+
+    PERRENOUD, Philippe.<br>
+    Construir as competências desde a escola. Porto Alegre: Artmed, 1999.<br><br>
+
+    BOURDIEU, Pierre; PASSERON, Jean-Claude.<br>
+    A reprodução: elementos para uma teoria do sistema de ensino. Rio de Janeiro: Francisco Alves, 1992.<br><br>
+
+    BRASIL. Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (INEP).<br>
+    Exame Nacional do Ensino Médio (ENEM). Disponível em: https://www.gov.br/inep.<br>
+    Acesso em: 5 abr. 2026.<br><br>
+
+    OCDE.<br>
+    Programme for International Student Assessment (PISA). Disponível em: https://www.oecd.org/pisa/.<br>
+    Acesso em: 5 abr. 2026.
 
   </div>
 
