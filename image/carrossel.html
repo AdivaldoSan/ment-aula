@@ -24,14 +24,14 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:20px;
+  gap:80px;
   width:95vw;
 }
 
 /* imagem central */
 .principal{
-  width:90%;
-  max-width:1000px;
+  width:95%;
+  max-width:1100px;
 }
 
 .principal img{
@@ -42,6 +42,7 @@ body{
   border-radius:12px;
   background: rgba(0,0,0,0.4);
   padding:12px;
+  transform: scale(1.03);
 
   box-shadow:0 25px 50px rgba(0,0,0,0.5);
 }
@@ -49,7 +50,7 @@ body{
 /* miniaturas */
 .thumb{
   width:120px;
-  opacity:0.6;
+  opacity:0.5;
   cursor:pointer;
   transition:0.2s;
 }
@@ -111,6 +112,20 @@ body{
 
   backdrop-filter: blur(6px);
 }
+.slide-anim{
+  transition: all 0.35s ease;
+  opacity:0;
+  transform: translateX(40px);
+}
+
+.slide-anim.show{
+  opacity:1;
+  transform: translateX(0);
+}
+
+.slide-left{
+  transform: translateX(-40px);
+}
 </style>
 </head>
 
@@ -127,7 +142,7 @@ body{
 
   <!-- centro -->
   <div class="principal">
-    <img id="imgAtual">
+    <img id="imgAtual" class="slide-anim">
   </div>
 
   <!-- direita -->
@@ -160,27 +175,44 @@ const imagens = [
 
 let i = 0;
 
-function atualizar(){
+function atualizar(direcao = "dir"){
 
-  const anterior = (i - 1 + imagens.length) % imagens.length;
-  const proxima = (i + 1) % imagens.length;
+  const img = document.getElementById("imgAtual");
 
-  document.getElementById("imgAtual").src = imagens[i];
-  document.getElementById("imgAnterior").src = imagens[anterior];
-  document.getElementById("imgProxima").src = imagens[proxima];
+  img.classList.remove("show");
 
-  document.getElementById("contador").innerText =
-    (i+1) + " / " + imagens.length;
+  // direção da animação
+  if(direcao === "esq"){
+    img.classList.add("slide-left");
+  }else{
+    img.classList.remove("slide-left");
+  }
+
+  setTimeout(() => {
+
+    const anterior = (i - 1 + imagens.length) % imagens.length;
+    const proxima = (i + 1) % imagens.length;
+
+    document.getElementById("imgAtual").src = imagens[i];
+    document.getElementById("imgAnterior").src = imagens[anterior];
+    document.getElementById("imgProxima").src = imagens[proxima];
+
+    document.getElementById("contador").innerText =
+      (i+1) + " / " + imagens.length;
+
+    img.classList.add("show");
+
+  }, 120);
 }
 
 function proximo(){
   i = (i + 1) % imagens.length;
-  atualizar();
+  atualizar("dir");
 }
 
 function anterior(){
   i = (i - 1 + imagens.length) % imagens.length;
-  atualizar();
+  atualizar("esq");
 }
 
 function voltar(){
