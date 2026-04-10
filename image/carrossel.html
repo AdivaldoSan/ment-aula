@@ -19,35 +19,49 @@ body{
   color:white;
 }
 
-/* container */
-.viewer{
-  width:70%;
-  max-width:800px;
+/* área do carrossel */
+.frame{
+  position:relative;
+  width:80vw;
+  max-width:900px;
+  height:75vh;
+  overflow:hidden;
 }
 
-.viewer img{
+/* imagens */
+.slide{
+  position:absolute;
   width:100%;
-  max-height:90vh;
-
+  height:100%;
   object-fit:contain;
 
-  border-radius:2px;
+  border-radius:12px;
   background: rgba(0,0,0,0.4);
   padding:12px;
 
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
-.img-anim{
-  opacity:0;
-  transform: scale(0.98);
-  transition: all 0.3s ease;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+
+  transition: all 0.4s ease;
 }
 
-.img-anim.show{
+/* posições */
+.center{
+  left:0;
   opacity:1;
-  transform: scale(1);
+  z-index:2;
 }
-/* navegação */
+
+.right{
+  left:100%;
+  opacity:0;
+}
+
+.left{
+  left:-100%;
+  opacity:0;
+}
+
+/* botões */
 .nav{
   position:fixed;
   bottom:20px;
@@ -57,7 +71,6 @@ body{
   gap:15px;
 }
 
-/* botões */
 .nav button, .voltar{
   width:50px;
   height:50px;
@@ -79,6 +92,7 @@ body{
   left:20px;
 }
 
+/* contador */
 #contador{
   position:fixed;
   bottom:90px;
@@ -86,65 +100,13 @@ body{
   transform:translateX(-50%);
 
   font-size:14px;
-  opacity:0.8;
+  opacity:0.85;
 
   background: rgba(0,0,0,0.3);
   padding:6px 12px;
   border-radius:10px;
 
   backdrop-filter: blur(6px);
-}
-.carrossel{
-  position:relative;
-  width:90vw;
-  height:80vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  perspective:1000px;
-}
-
-/* cada imagem */
-.item{
-  position:absolute;
-  width:75%;            /* 🔥 aumenta base */
-  max-width:900px;      /* 🔥 libera tamanho */
-
-  transition: all 0.5s ease;
-
-  border-radius:12px;
-  background: rgba(0,0,0,0.4);
-  padding:10px;
-
-  box-shadow:0 25px 50px rgba(0,0,0,0.5);
-}
-
-/* centro */
-.ativo{
-  transform: translateX(0) scale(1.1); /* 🔥 destaque real */
-  opacity:1;
-  z-index:3;
-}
-
-/* direita */
-.dir{
-  transform: translateX(65%) scale(0.85) rotateY(-40deg);
-  opacity:0.85;
-  z-index:2;
-}
-
-/* esquerda */
-.esq{
-  transform: translateX(65%) scale(0.85) rotateY(40deg);
-  opacity:0.85;
-  z-index:2;
-}
-
-/* fundo (quase invisível) */
-.fundo{
-  transform: translateX(0) scale(0.75);
-  opacity:0.4;   /* 🔥 mais visível */
-  z-index:1;
 }
 </style>
 </head>
@@ -153,11 +115,11 @@ body{
 
 <button class="voltar" onclick="voltar()">←</button>
 
-<div class="carrossel" id="carrossel"></div>
-  
-  
+<div class="frame">
+  <img id="imgAtual" class="slide center">
+  <img id="imgNova" class="slide right">
 </div>
-  
+
 <div id="contador"></div>
 
 <div class="nav">
@@ -166,6 +128,7 @@ body{
 </div>
 
 <script>
+
 const imagens = [
   "Slide10.PNG",
   "Slide11.PNG",
@@ -180,49 +143,60 @@ const imagens = [
 
 let i = 0;
 
-const carrossel = document.getElementById("carrossel");
+const atual = document.getElementById("imgAtual");
+const nova = document.getElementById("imgNova");
 
-// cria elementos
-imagens.forEach(src => {
-  const img = document.createElement("img");
-  img.src = src;
-  img.className = "item";
-  carrossel.appendChild(img);
-});
-
-function atualizar(){
-
-  const itens = document.querySelectorAll(".item");
-
-  itens.forEach((el, index) => {
-    el.className = "item";
-
-    if(index === i){
-      el.classList.add("ativo");
-    }
-    else if(index === (i + 1) % imagens.length){
-      el.classList.add("dir");
-    }
-    else if(index === (i - 1 + imagens.length) % imagens.length){
-      el.classList.add("esq");
-    }
-    else{
-      el.classList.add("fundo");
-    }
-  });
-
+function atualizarContador(){
   document.getElementById("contador").innerText =
     (i+1) + " / " + imagens.length;
 }
 
+function iniciar(){
+  atual.src = imagens[i];
+  atualizarContador();
+}
+
 function proximo(){
-  i = (i + 1) % imagens.length;
-  atualizar();
+  trocar(1);
 }
 
 function anterior(){
-  i = (i - 1 + imagens.length) % imagens.length;
-  atualizar();
+  trocar(-1);
+}
+
+function trocar(dir){
+
+  i = (i + dir + imagens.length) % imagens.length;
+
+  nova.src = imagens[i];
+
+  // define direção
+  if(dir === 1){
+    nova.className = "slide right";
+  }else{
+    nova.className = "slide left";
+  }
+
+  setTimeout(() => {
+
+    // entra
+    nova.classList.remove("right", "left");
+    nova.classList.add("center");
+
+    // sai
+    atual.classList.remove("center");
+    atual.classList.add(dir === 1 ? "left" : "right");
+
+  }, 10);
+
+  // troca referências
+  setTimeout(() => {
+    atual.src = imagens[i];
+    atual.className = "slide center";
+    nova.className = "slide right";
+  }, 400);
+
+  atualizarContador();
 }
 
 function voltar(){
@@ -232,7 +206,8 @@ function voltar(){
   window.location.href = "../painel.html?slide=" + slide;
 }
 
-atualizar();
+iniciar();
+
 </script>
 
 </body>
