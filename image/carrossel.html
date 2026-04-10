@@ -9,11 +9,7 @@
 <style>
 body{
   margin:0;
-  height:100vh;
   font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
 
   background: linear-gradient(135deg, #1e3c72, #2a5298);
   color:white;
@@ -127,13 +123,41 @@ body{
 .slide-left{
   transform: translateX(-40px);
 }
+#topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:50px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+
+  font-weight:bold;
+  z-index:1000;
+}
+#app{
+  height:calc(100vh - 50px);
+  margin-top:50px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 </style>
 </head>
 
 <body>
+<div id="topbar">
+  Princípios e Finalidades da Educação Nacional
+</div>
 
+<div id="app">
 <button class="voltar" onclick="voltar()">←</button>
-
 <div class="container">
 
   <!-- esquerda -->
@@ -152,7 +176,8 @@ body{
   </div>
 
 </div>
-
+</div>
+  
 <div id="contador"></div>
 
 <div class="nav">
