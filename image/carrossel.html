@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Apresentação do Sistema</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color:white;
+}
+
+/* container */
+.viewer{
+  width:80%;
+  max-width:900px;
+  text-align:center;
+}
+
+/* imagem */
+.viewer img{
+  width:100%;
+  max-height:70vh;
+  object-fit:contain;
+
+  border-radius:12px;
+  background: rgba(0,0,0,0.3);
+  padding:10px;
+}
+
+/* navegação */
+.nav{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:15px;
+}
+
+/* botões */
+.nav button, .voltar{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  font-size:20px;
+
+  background:white;
+  color:black;
+  cursor:pointer;
+
+  box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+/* voltar */
+.voltar{
+  position:fixed;
+  top:20px;
+  left:20px;
+}
+</style>
+</head>
+
+<body>
+
+<button class="voltar" onclick="voltar()">←</button>
+
+<div class="viewer">
+  <img id="img" src="">
+</div>
+
+<div class="nav">
+  <button onclick="anterior()">◀</button>
+  <button onclick="proximo()">▶</button>
+</div>
+
+<script>
+
+const imagens = [
+  "Slide10.PNG",
+  "Slide11.PNG",
+  "Slide12.PNG",
+  "Slide13.PNG",
+  "Slide14.PNG",
+  "Slide15.PNG",
+  "Slide16.PNG",
+  "Slide17.png",
+  "Slide18.png"
+];
+
+let i = 0;
+
+function render(){
+  document.getElementById("img").src = imagens[i];
+}
+
+function proximo(){
+  if(i < imagens.length - 1){
+    i++;
+    render();
+  }
+}
+
+function anterior(){
+  if(i > 0){
+    i--;
+    render();
+  }
+}
+
+function voltar(){
+  window.location.href = "../painel.html";
+}
+
+render();
+
+</script>
+
+</body>
+</html>
