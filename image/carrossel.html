@@ -19,46 +19,49 @@ body{
   color:white;
 }
 
-/* área do carrossel */
-.frame{
-  position:relative;
-  width:80vw;
-  max-width:900px;
-  height:75vh;
-  overflow:hidden;
+/* estrutura principal */
+.container{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  width:95vw;
 }
 
-/* imagens */
-.slide{
-  position:absolute;
+/* imagem central */
+.principal{
+  width:90%;
+  max-width:1000px;
+}
+
+.principal img{
   width:100%;
-  height:100%;
+  max-height:85vh;
   object-fit:contain;
 
   border-radius:12px;
   background: rgba(0,0,0,0.4);
   padding:12px;
 
-  box-shadow:0 20px 40px rgba(0,0,0,0.4);
-
-  transition: all 0.4s ease;
+  box-shadow:0 25px 50px rgba(0,0,0,0.5);
 }
 
-/* posições */
-.center{
-  left:0;
+/* miniaturas */
+.thumb{
+  width:120px;
+  opacity:0.6;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.thumb:hover{
   opacity:1;
-  z-index:2;
+  transform:scale(1.05);
 }
 
-.right{
-  left:100%;
-  opacity:0;
-}
-
-.left{
-  left:-100%;
-  opacity:0;
+.thumb img{
+  width:100%;
+  border-radius:10px;
 }
 
 /* botões */
@@ -115,9 +118,23 @@ body{
 
 <button class="voltar" onclick="voltar()">←</button>
 
-<div class="frame">
-  <img id="imgAtual" class="slide center">
-  <img id="imgNova" class="slide right">
+<div class="container">
+
+  <!-- esquerda -->
+  <div class="thumb" onclick="anterior()">
+    <img id="imgAnterior">
+  </div>
+
+  <!-- centro -->
+  <div class="principal">
+    <img id="imgAtual">
+  </div>
+
+  <!-- direita -->
+  <div class="thumb" onclick="proximo()">
+    <img id="imgProxima">
+  </div>
+
 </div>
 
 <div id="contador"></div>
@@ -143,60 +160,27 @@ const imagens = [
 
 let i = 0;
 
-const atual = document.getElementById("imgAtual");
-const nova = document.getElementById("imgNova");
+function atualizar(){
 
-function atualizarContador(){
+  const anterior = (i - 1 + imagens.length) % imagens.length;
+  const proxima = (i + 1) % imagens.length;
+
+  document.getElementById("imgAtual").src = imagens[i];
+  document.getElementById("imgAnterior").src = imagens[anterior];
+  document.getElementById("imgProxima").src = imagens[proxima];
+
   document.getElementById("contador").innerText =
     (i+1) + " / " + imagens.length;
 }
 
-function iniciar(){
-  atual.src = imagens[i];
-  atualizarContador();
-}
-
 function proximo(){
-  trocar(1);
+  i = (i + 1) % imagens.length;
+  atualizar();
 }
 
 function anterior(){
-  trocar(-1);
-}
-
-function trocar(dir){
-
-  i = (i + dir + imagens.length) % imagens.length;
-
-  nova.src = imagens[i];
-
-  // define direção
-  if(dir === 1){
-    nova.className = "slide right";
-  }else{
-    nova.className = "slide left";
-  }
-
-  setTimeout(() => {
-
-    // entra
-    nova.classList.remove("right", "left");
-    nova.classList.add("center");
-
-    // sai
-    atual.classList.remove("center");
-    atual.classList.add(dir === 1 ? "left" : "right");
-
-  }, 10);
-
-  // troca referências
-  setTimeout(() => {
-    atual.src = imagens[i];
-    atual.className = "slide center";
-    nova.className = "slide right";
-  }, 400);
-
-  atualizarContador();
+  i = (i - 1 + imagens.length) % imagens.length;
+  atualizar();
 }
 
 function voltar(){
@@ -206,7 +190,7 @@ function voltar(){
   window.location.href = "../painel.html?slide=" + slide;
 }
 
-iniciar();
+atualizar();
 
 </script>
 
