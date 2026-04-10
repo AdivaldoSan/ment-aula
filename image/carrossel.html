@@ -78,6 +78,8 @@ body{
 <div class="viewer">
   <img id="img" src="">
 </div>
+  
+<div id="contador"></div>
 
 <div class="nav">
   <button onclick="anterior()">◀</button>
@@ -102,20 +104,18 @@ let i = 0;
 
 function render(){
   document.getElementById("img").src = imagens[i];
+  document.getElementById("contador").innerText =
+    (i+1) + " / " + imagens.length;
 }
 
 function proximo(){
-  if(i < imagens.length - 1){
-    i++;
-    render();
-  }
+  i = (i + 1) % imagens.length;
+  render();
 }
 
 function anterior(){
-  if(i > 0){
-    i--;
-    render();
-  }
+  i = (i - 1 + imagens.length) % imagens.length;
+  render();
 }
 
 function voltar(){
