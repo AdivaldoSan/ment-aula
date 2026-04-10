@@ -746,20 +746,7 @@ const SENHA_RESET = "1234"; // ← escolha sua senha
 
 // =================== ESTADO ===================
 let slide = 0;
-const params = new URLSearchParams(window.location.search);
-const slideParam = params.get("slide");
 
-if(slideParam !== null){
-  slide = parseInt(slideParam);
-
-  slideBox.style.display = "flex";
-  app.style.display = "none";
-  topbar.style.display = "none";
-  reset.style.display = "none";
-
-  slideBox.innerHTML = slides[slide]();
-  slide++; // mantém fluxo correto
-}
 // =================== DADOS ===================
 let palavras1 = {};
 let palavras3 = {};
@@ -1172,6 +1159,23 @@ const slides = [
 </div>
 `
 ];
+
+//===========================================
+const params = new URLSearchParams(window.location.search);
+const slideParam = params.get("slide");
+
+if(slideParam !== null){
+  slide = parseInt(slideParam);
+
+  slideBox.style.display = "flex";
+  app.style.display = "none";
+  topbar.style.display = "none";
+  reset.style.display = "none";
+
+  slideBox.innerHTML = slides[slide]();
+  slide++; // mantém fluxo correto
+}
+  
 //===========================================
 function proximo(){
 
