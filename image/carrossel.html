@@ -30,25 +30,22 @@ body{
 
 /* imagem central */
 .principal{
-  width:100%;
-  max-width:1100px;
+  width:95vw;          /* 🔥 ocupa quase toda tela */
+  max-width:none;      /* 🔥 remove limite */
 }
 
 .principal img{
   width:100%;
-  max-height:100vh;
+  height:90vh;         /* 🔥 controla tamanho real */
   object-fit:contain;
 
   border-radius:12px;
-  
-  
-  transform: scale(1.2);
 
-  background: transparent;   /* 🔥 remove fundo */
-  padding:0;                 /* 🔥 remove “caixa” */
+  background: transparent;
+  padding:0;
   box-shadow:none;
 
-  
+  transform:none;      /* 🔥 remove escala fake */
 }
 
 /* miniaturas */
