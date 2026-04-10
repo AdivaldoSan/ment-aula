@@ -94,6 +94,58 @@ body{
 
   backdrop-filter: blur(6px);
 }
+.carrossel{
+  position:relative;
+  width:80vw;
+  height:70vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:1000px;
+}
+
+/* cada imagem */
+.item{
+  position:absolute;
+  width:60%;
+  max-width:700px;
+
+  transition: all 0.5s ease;
+
+  border-radius:12px;
+  background: rgba(0,0,0,0.4);
+  padding:10px;
+
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* centro */
+.ativo{
+  transform: translateX(0) scale(1);
+  opacity:1;
+  z-index:3;
+}
+
+/* direita */
+.dir{
+  transform: translateX(60%) scale(0.8) rotateY(-30deg);
+  opacity:0.6;
+  z-index:2;
+}
+
+/* esquerda */
+.esq{
+  transform: translateX(-60%) scale(0.8) rotateY(30deg);
+  opacity:0.6;
+  z-index:2;
+}
+
+/* fundo (quase invisível) */
+.fundo{
+  transform: translateX(0) scale(0.6);
+  opacity:0.2;
+  z-index:1;
+}
 </style>
 </head>
 
@@ -101,7 +153,7 @@ body{
 
 <button class="voltar" onclick="voltar()">←</button>
 
-<div class="viewer">
+<div class="carrossel" id="carrossel"></div>
   
   <img id="img" class="img-anim" src="">
 </div>
@@ -114,7 +166,6 @@ body{
 </div>
 
 <script>
-
 const imagens = [
   "Slide10.PNG",
   "Slide11.PNG",
@@ -129,28 +180,49 @@ const imagens = [
 
 let i = 0;
 
-function render(){
-  const img = document.getElementById("img");
+const carrossel = document.getElementById("carrossel");
 
-  img.classList.remove("show");
+// cria elementos
+imagens.forEach(src => {
+  const img = document.createElement("img");
+  img.src = src;
+  img.className = "item";
+  carrossel.appendChild(img);
+});
 
-  setTimeout(() => {
-    img.src = imagens[i];
-    document.getElementById("contador").innerText =
-      (i+1) + " / " + imagens.length;
+function atualizar(){
 
-    img.classList.add("show");
-  }, 150);
+  const itens = document.querySelectorAll(".item");
+
+  itens.forEach((el, index) => {
+    el.className = "item";
+
+    if(index === i){
+      el.classList.add("ativo");
+    }
+    else if(index === (i + 1) % imagens.length){
+      el.classList.add("dir");
+    }
+    else if(index === (i - 1 + imagens.length) % imagens.length){
+      el.classList.add("esq");
+    }
+    else{
+      el.classList.add("fundo");
+    }
+  });
+
+  document.getElementById("contador").innerText =
+    (i+1) + " / " + imagens.length;
 }
 
 function proximo(){
   i = (i + 1) % imagens.length;
-  render();
+  atualizar();
 }
 
 function anterior(){
   i = (i - 1 + imagens.length) % imagens.length;
-  render();
+  atualizar();
 }
 
 function voltar(){
@@ -160,8 +232,7 @@ function voltar(){
   window.location.href = "../painel.html?slide=" + slide;
 }
 
-render();
-
+atualizar();
 </script>
 
 </body>
