@@ -119,7 +119,10 @@ function anterior(){
 }
 
 function voltar(){
- window.history.back();
+  const params = new URLSearchParams(window.location.search);
+  const slide = params.get("slide") || 0;
+
+  window.location.href = "../painel.html?slide=" + slide;
 }
 
 render();
