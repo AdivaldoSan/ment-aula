@@ -689,6 +689,49 @@ h3{
 
   z-index:1000; /* garante que fica acima */
 }
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.7);
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  z-index:2000;
+}
+
+.modal-content{
+  width:80%;
+  max-width:700px;
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+
+  border-radius:12px;
+  padding:20px;
+
+  box-shadow:0 20px 40px rgba(0,0,0,0.5);
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  font-size:18px;
+  margin-bottom:15px;
+}
+
+.modal-header button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -1072,11 +1115,22 @@ const slides = [
   <!-- CONEXÃO PRÁTICA -->
   <div class="pratica">
 
-    uso de avaliação rápida 
-    (<a href="image/carrossel.html?slide=4" style="color:#69f0ae;">sistema digital</a>)<br>
-    → identificar dificuldades e agir imediatamente
+   uso de avaliação rápida 
+  (<a href="image/carrossel.html?slide=4" style="color:#69f0ae;">sistema digital</a>)<br><br>
 
-  </div>
+  <button onclick="abrirModal()" style="
+    padding:10px 18px;
+    border:none;
+    border-radius:20px;
+    background:#69f0ae;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+  ">
+    Ver respostas da turma
+  </button>
+
+</div>
 
   <!-- BASE TEÓRICA -->
   <div class="teoria">
@@ -1175,7 +1229,21 @@ if(slideParam !== null){
   slideBox.innerHTML = slides[slide]();
   slide++; // mantém fluxo correto
 }
-  
+//===========================================
+  function abrirModal(){
+
+  const modal = document.getElementById("modalP3");
+  const conteudo = document.getElementById("modalP3Conteudo");
+
+  // reaproveita os dados já renderizados
+  conteudo.innerHTML = p3.innerHTML;
+
+  modal.style.display = "flex";
+}
+
+function fecharModal(){
+  document.getElementById("modalP3").style.display = "none";
+}
 //===========================================
 function proximo(){
 
@@ -1252,6 +1320,20 @@ function limpar(){
   p3.innerHTML = "";
 }
 </script>
+<!-- MODAL P3 -->
+<div id="modalP3" class="modal">
 
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <span>Como saber se a educação funciona?</span>
+      <button onclick="fecharModal()">✕</button>
+    </div>
+
+    <div id="modalP3Conteudo"></div>
+
+  </div>
+
+</div>
 </body>
 </html>
