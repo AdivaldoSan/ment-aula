@@ -155,19 +155,30 @@ function enviar(){
 
   // feedback visual melhor
   document.body.innerHTML = `
+  <div style="
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color:white;
+    font-size:24px;
+    text-align:center;
+    flex-direction:column;
+  ">
+
+    <div>✅ Resposta enviada!</div>
+
     <div style="
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color:white;
-      font-size:24px;
-      text-align:center;
+      margin-top:15px;
+      font-size:18px;
+      opacity:0.8;
     ">
-      ✅ Resposta enviada!
+      Grupo 05 agradece sua participação!
     </div>
-  `;
+
+  </div>
+`;
 }
 
 </script>
